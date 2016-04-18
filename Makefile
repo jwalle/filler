@@ -6,13 +6,14 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/18 16:58:40 by jwalle           ###   ########.fr        #
+#    Updated: 2016/04/18 18:49:42 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= filler
 
 SRC 		=	filler.c \
+				get_next_line.c \
 
 INC			=	-I./inc -I./libft/includes
 LINK		=	-Llibft -lft
