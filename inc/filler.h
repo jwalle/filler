@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 17:00:20 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/19 18:39:00 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/04/19 18:49:09 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct	s_env
 {
 	int			player;
 	char		**map;
+	char		**piece;
 }				t_env;
 
 #endif

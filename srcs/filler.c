@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 17:02:04 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/19 18:45:42 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/04/19 18:53:00 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ char **get_map(t_env *e)
 		map[y++] = ft_strdup(&line[i]);
 	}
 	check_map(map);
+	if (!strstr(line, "Piece"))
+	{
+		printf("ERROR\n");
+		return (NULL);
+	}
 	return (map);
 }
 
@@ -83,6 +88,8 @@ int main()
 			e->player = get_player(line); // Penser a proteger.)
 		if (strstr(line, "Plateau"))
 			e->map = get_map(e);
+		printf("plop\n");
+		e->piece = get_map(e);
 	}
 		//printf("coucou\n");
 	return (0);
