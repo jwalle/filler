@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/18 18:49:42 by jwalle           ###   ########.fr        #
+#    Updated: 2016/04/19 17:17:10 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,19 +32,19 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
-	@make -C ./libft
+	#make -C ./libft
 	$(CC) -o $(NAME) $(LINK) $^ 
 
 $(ODIR)%.o : $(SRCDIR)%.c
 	$(CC) $(FLAGS) $(INC) -c $^ -o $@
 
 clean		:
-	@make -C ./libft clean
-	@$(RM) $(OBJ)
+	#@make -C ./libft clean
+	$(RM) $(OBJS)
 
 fclean		:	clean
-	@make -C ./libft fclean
-	@$(RM) $(NAME)
+	#@make -C ./libft fclean
+	$(RM) $(NAME)
 
 re			:	fclean all
 
