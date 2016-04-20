@@ -109,7 +109,6 @@ char	get_player_char(int player)
 int		test_piece(t_env *e, int map_coord[2])
 {
 	int		piece_coord[2];
-	int		y_piece;
 
 	piece_coord[0] = 0;
 	while (e->piece[piece_coord[0]] < e->piece_size[0])
