@@ -1,5 +1,4 @@
-seed = 8848
-X: error on input
+seed = 5960
 ./ex_filler/abanlin.filler won
 Score:
-26AGAINST25
+159AGAINST136

@@ -106,9 +106,34 @@ char	get_player_char(int player)
 	return ('O');
 }
 
-int check_dot(t_env *e, int map_coord[2], int piece_coord[2])
+int	*next_star(t_env *e, int piece_coord[2])
 {
-	return (map_coord[0] + piece_coord[0]);
+	printf("PLOPLPOP = %i, %i\n", piece_coord[0], piece_coord[1]);
+	while (piece_coord[0] < e->piece_size[0])
+	{
+		while (++piece_coord[1] < e->piece_size[1])
+		{
+			if (e->piece[piece_coord[0]][piece_coord[1]] == '*')
+				return (piece_coord);
+		}
+		piece_coord[1] = 0;
+		piece_coord[0]++;
+	}
+	return NULL;
+}
+
+int check_stars(t_env *e, int map_coord[2], int piece_coord[2])
+{
+	int x;
+	int y;
+	while ((piece_coord = next_star(e, piece_coord)))
+	{
+		x = map_coord[0] + piece_coord[0];
+		y = map_coord[1] + piece_coord[1];
+		if (e->map[x][y] != '.')
+			return (0);
+	}
+	return (1);
 }
 
 int check_size()
@@ -133,12 +158,12 @@ int		test_piece(t_env *e, int map_coord[2])
 		{
 			if (e->piece[piece_coord[0]][piece_coord[1]] == '*')
 			{
-				if (check_dot(e, map_coord, piece_coord) && check_size() && check_fill())
-					printf("PLOP\n");
+				if (check_stars(e, map_coord, piece_coord) && check_size() && check_fill())
+					printf("PLOP2\n");
 			}
 			piece_coord[1]++;
 		}
-			piece_coord[0]++;
+		piece_coord[0]++;
 	}
 	return (1); // ??
 }
