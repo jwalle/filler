@@ -106,6 +106,8 @@ char	get_player_char(int player)
 	return ('O');
 }
 
+/* Va chercher la prochaine etoile */
+
 int	*next_star(t_env *e, int piece_coord[2])
 {
 	printf("PLOPLPOP = %i, %i\n", piece_coord[0], piece_coord[1]);
@@ -122,18 +124,42 @@ int	*next_star(t_env *e, int piece_coord[2])
 	return NULL;
 }
 
+/* verifie si les autres etoiles sont sur les '.' */
+/* piece_coord == position de l'etoile sur la piece */
+/* map_coord == position du X sur la map */
+
 int check_stars(t_env *e, int map_coord[2], int piece_coord[2])
 {
 	int x;
 	int y;
-	while ((piece_coord = next_star(e, piece_coord)))
+
+	//x = piece_coord[0];
+	//y = piece_coord[1];
+
+	x = 0;
+	while (x < piece_size[0])
 	{
-		x = map_coord[0] + piece_coord[0];
-		y = map_coord[1] + piece_coord[1];
-		if (e->map[x][y] != '.')
-			return (0);
+		y = 0;
+		while (y < piece_size[1])
+		{
+			if (x != piece_coord[0] && y != piece_coord[1])
+			{
+				if (e->piece[x][y] == '*' && e->map[] // need start of piece
+			}
+		}
 	}
-	return (1);
+
+	// while ((piece_coord = next_star(e, piece_coord)))
+	// {
+	// 	if ((map_coord[0] - piece_coord[0] >= 0) && (map_coord[1] - piece_coord[1] >= 0)
+	// 	{
+	// 		x = map_coord[0] + piece_coord[0];
+	// 		y = map_coord[1] + piece_coord[1];
+	// 		if (e->map[x][y] != '.')
+	// 			return (0);
+	// 	}
+	// }
+	// return (1);
 }
 
 int check_size()
@@ -145,6 +171,8 @@ int check_fill()
 {
 	return (1);
 }
+
+/* Parcours la piece, cherche une etoile et la teste sur la position envoyer par play */
 
 int		test_piece(t_env *e, int map_coord[2])
 {
@@ -163,15 +191,16 @@ int		test_piece(t_env *e, int map_coord[2])
 				piece_coord[0] = x;
 				piece_coord[1] = y;
 				if (check_stars(e, map_coord, piece_coord) && check_size() && check_fill())
-					printf("PLOP2\n");
+					return (1);
 			}
 			y++;
 		}
 		x++;
 	}
-	return (1); // ??
+	return (0); // ??
 }
-	
+
+/* Parcours la map et cherche les char du joueur */
 
 void	play(t_env *e)
 {
@@ -187,7 +216,7 @@ void	play(t_env *e)
 			{
 				if (test_piece(e, map_coord))
 				{
-					printf("start = [%i,%i]\n", map_coord[0], map_coord[1]); // A deplacer
+					printf("start = [%i,%i]\n", map_coord[0], map_coord[1]); // A deplacer, doit renvoyer debut piece
 					return ;
 				}
 			}
