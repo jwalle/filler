@@ -125,10 +125,11 @@ int	*next_star(t_env *e, int piece_coord[2])
 }
 
 /* verifie si les autres etoiles sont sur les '.' */
-/* piece_coord == position de l'etoile sur la piece */
+/* star_coord == position de l'etoile sur la piece */
 /* map_coord == position du X sur la map */
+/* piece_coord == position de la piece sur la map */
 
-int check_stars(t_env *e, int map_coord[2], int piece_coord[2])
+int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2])
 {
 	int x;
 	int y;
@@ -136,19 +137,21 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2])
 	//x = piece_coord[0];
 	//y = piece_coord[1];
 
+	(void)map_coord;
 	x = 0;
-	while (x < piece_size[0])
+	while (x < e->piece_size[0])
 	{
 		y = 0;
-		while (y < piece_size[1])
+		while (y < e->piece_size[1])
 		{
-			if (x != piece_coord[0] && y != piece_coord[1])
+			if (x != star_coord[0] && y != star_coord[1])
 			{
-				if (e->piece[x][y] == '*' && e->map[] // need start of piece
+				if (e->piece[x][y] == '*' )//&& e->map[] // need start of piece
+					return (1);
 			}
 		}
 	}
-
+	return (0);
 	// while ((piece_coord = next_star(e, piece_coord)))
 	// {
 	// 	if ((map_coord[0] - piece_coord[0] >= 0) && (map_coord[1] - piece_coord[1] >= 0)
@@ -174,9 +177,18 @@ int check_fill()
 
 /* Parcours la piece, cherche une etoile et la teste sur la position envoyer par play */
 
-int		test_piece(t_env *e, int map_coord[2])
+int		*piece_coordinate(t_env *e, int map_coord[2], int star_coord[2])
 {
 	int	piece_coord[2];
+
+	piece_coord[0] = map_coord[0] - star_coord[0];
+	piece_coord[1] = map_coord[1] - star_coord[1];
+}
+
+int		test_piece(t_env *e, int map_coord[2])
+{
+	int	star_coord[2];
+	int piece_coord[2];
 	int x;
 	int y;
 
@@ -188,9 +200,11 @@ int		test_piece(t_env *e, int map_coord[2])
 		{
 			if (e->piece[x][y] == '*')
 			{
-				piece_coord[0] = x;
-				piece_coord[1] = y;
-				if (check_stars(e, map_coord, piece_coord) && check_size() && check_fill())
+				star_coord[0] = x;
+				star_coord[1] = y;
+				piece_coord = piece_coordinate(e, map_coord, star_coord);
+				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
+					
 					return (1);
 			}
 			y++;
