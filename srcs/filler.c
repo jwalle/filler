@@ -148,22 +148,26 @@ int check_fill()
 
 int		test_piece(t_env *e, int map_coord[2])
 {
-	int		piece_coord[2];
+	int	piece_coord[2];
+	int x;
+	int y;
 
-	piece_coord[0] = 0;
-	while (piece_coord[0] < e->piece_size[0])
+	x = 0;
+	while (x < e->piece_size[0])
 	{
-		piece_coord[1] = 0;
-		while (piece_coord[1] < e->piece_size[1])
+		y = 0;
+		while (y < e->piece_size[1])
 		{
-			if (e->piece[piece_coord[0]][piece_coord[1]] == '*')
+			if (e->piece[x][y] == '*')
 			{
+				piece_coord[0] = x;
+				piece_coord[1] = y;
 				if (check_stars(e, map_coord, piece_coord) && check_size() && check_fill())
 					printf("PLOP2\n");
 			}
-			piece_coord[1]++;
+			y++;
 		}
-		piece_coord[0]++;
+		x++;
 	}
 	return (1); // ??
 }
