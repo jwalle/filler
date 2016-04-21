@@ -41,10 +41,10 @@ int check_piece(t_env *e)
 		y = 0;
 		while (e->piece[x][y])
 		{
-			//ft_putchar(e->piece[x][y]);
+			// ft_putchar(e->piece[x][y]);
 			y++;
 		}
-		//ft_putchar('\n');
+		// ft_putchar('\n');
 		x++;
 	}
 	e->piece_size[0] = x;
@@ -61,6 +61,7 @@ int check_map(t_env *e)
 	while (e->map[x])
 	{
 		y = 0;
+		//ft_putstr(e->map[x]);
 		while (e->map[x][y])
 		{
 			//ft_putchar(e->map[x][y]);
@@ -75,7 +76,26 @@ int check_map(t_env *e)
 	return (0);
 }
 
-char **get_map(t_env *e)
+char **get_piece()
+{
+	char	*line;
+	int		i;
+	int		y;
+	char	**piece;
+
+	y = 0;
+	piece = (char **)malloc(100000);
+	while ((get_next_line(0, &line) > 0))
+	{
+		i = 0;
+		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+			i++;
+		piece[y++] = ft_strdup(&line[i]);
+	}
+	return (piece);
+}
+
+char **get_map()
 {
 	char	*line;
 	int		i;
@@ -83,8 +103,8 @@ char **get_map(t_env *e)
 	char	**map;
 
 	y = 0;
-	(void)e;
 	map = (char **)malloc(100000);
+	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "Piece"))
@@ -94,20 +114,18 @@ char **get_map(t_env *e)
 			i++;
 		map[y++] = ft_strdup(&line[i]);
 	}
-	//check_map(map);
-	
 	return (map);
 }
 
 char	get_player_char(int player)
 {
 	if (player == 1)
-		return ('X');
-	return ('O');
+		return ('O');
+	return ('X');
 }
 
 /* Va chercher la prochaine etoile */
-
+/*
 int	*next_star(t_env *e, int piece_coord[2])
 {
 	while (piece_coord[0] < e->piece_size[0])
@@ -121,7 +139,7 @@ int	*next_star(t_env *e, int piece_coord[2])
 		piece_coord[0]++;
 	}
 	return NULL;
-}
+}*/
 
 /* verifie si les autres etoiles sont sur les '.' */
 /* star_coord == position de l'etoile sur la piece */
@@ -135,21 +153,21 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2
 
 	(void)map_coord;
 	x = 0;
-	while (x < e->piece_size[0])
+	while ((x < e->piece_size[0]) && (piece_coord[0] + x <= e->map_size[0]))
 	{
 		y = 0;
-		while (y < e->piece_size[1])
+		while ((y < e->piece_size[1]) && (piece_coord[1] + y <= e->map_size[1]))
 		{
 			if (x != star_coord[0] && y != star_coord[1])
 			{
-				if (e->piece[x][y] == '*' && e->map[piece_coord[0] + x][piece_coord[1] + y] == '.')
-					return (1);
+					if (e->piece[x][y] == '*' && e->map[piece_coord[0] + x][piece_coord[1] + y] != '.')
+						return (0);
 			}
 			y++;
 		}
 		x++;
 	}
-	return (0);
+	return (1);
 }
 
 int check_size()
@@ -194,10 +212,15 @@ int		test_piece(t_env *e, int map_coord[2])
 				star_coord[1] = y;
 				piece_coord[0] = map_coord[0] - star_coord[0];
 				piece_coord[1] = map_coord[1] - star_coord[1];
+
 			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
 				{
-					printf("%i %i\n",piece_coord[0], piece_coord[1]); // A deplacer, doit renvoyer debut piece
+					// printf("%i %i\n",piece_coord[0], piece_coord[1]); // A deplacer, doit renvoyer debut piece
+					/*ft_putnbr(piece_coord[0]);
+					ft_putchar(' ');
+					ft_putnbr(piece_coord[1]);
+					ft_putchar('\n');*/
 					return (1);
 				}
 			}
@@ -215,10 +238,10 @@ void	play(t_env *e)
 	int map_coord[2];
 
 	map_coord[0] = 0;
-	while (map_coord[0] <= e->map_size[0]) // < ?
+	while (map_coord[0] < e->map_size[0]) // < ?
 	{
 		map_coord[1] = 0;
-		while (map_coord[1] <= e->map_size[1])
+		while (map_coord[1] < e->map_size[1])
 		{
 			if (e->map[map_coord[0]][map_coord[1]] == get_player_char(e->player))
 			{
@@ -240,13 +263,14 @@ int main()
 
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
+	//printf("PLOP\n");
 	while ((get_next_line(0, &line) > 0))
 	{
-		if (strstr(line, "$$$"))
+		if (strstr(line, "$$$") && !e->player)
 			e->player = get_player(line); // Penser a proteger
 		if (strstr(line, "Plateau"))
 		{
-			e->map = get_map(e);
+			e->map = get_map();
 			break ;
 			if (!strstr(line, "Piece")) // A verifier
 			{
@@ -255,7 +279,9 @@ int main()
 			}
 		}
 	}
-	e->piece = get_map(e);
+	ft_putstr("1 2\n");
+	
+	e->piece = get_piece();
 	check_map(e);
 	check_piece(e);
 	play(e);

@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include "libft.h"
 #include "get_next_line.h"
-#define FORMAT ".OoxX"
+#define FORMAT "*.OoxX"
 typedef struct	s_env
 {
 	int			player;
