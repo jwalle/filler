@@ -71,7 +71,7 @@ int		get_next_line(int const fd, char **line)
 	char			*tmp;
 
 	if (BUFF_SIZE < 1 || fd < 0 || !line)
-		return (-1);
+		return (-1);	
 	if (!toto.size)
 	{
 		tmp = malloc(BUFF_SIZE + 1);
@@ -81,7 +81,7 @@ int		get_next_line(int const fd, char **line)
 			if (!toto.size)
 				toto.buf = ft_strdup(tmp);
 			else
-				toto.buf = ft_strjoin(toto.buf, tmp);
+				toto.buf = ft_strjoin(toto.buf, tmp);			
 			toto.size += toto.i;
 		}
 		if (toto.i < 0)

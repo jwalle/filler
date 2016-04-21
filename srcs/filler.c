@@ -41,10 +41,10 @@ int check_piece(t_env *e)
 		y = 0;
 		while (e->piece[x][y])
 		{
-			// ft_putchar(e->piece[x][y]);
+			ft_putchar(e->piece[x][y]);
 			y++;
 		}
-		// ft_putchar('\n');
+		ft_putchar('\n');
 		x++;
 	}
 	e->piece_size[0] = x;
@@ -61,13 +61,13 @@ int check_map(t_env *e)
 	while (e->map[x])
 	{
 		y = 0;
-		//ft_putstr(e->map[x]);
+		ft_putstr(e->map[x]);
 		while (e->map[x][y])
 		{
 			//ft_putchar(e->map[x][y]);
 			y++;
 		}
-		//ft_putchar('\n');
+		ft_putchar('\n');
 		x++;
 	}
 	e->map_size[0] = x;
@@ -200,7 +200,7 @@ int		test_piece(t_env *e, int map_coord[2])
 	int x;
 	int y;
 
-	x = 0;
+	x = 0;	
 	while (x < e->piece_size[0])
 	{
 		y = 0;
@@ -217,10 +217,10 @@ int		test_piece(t_env *e, int map_coord[2])
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
 				{
 					// printf("%i %i\n",piece_coord[0], piece_coord[1]); // A deplacer, doit renvoyer debut piece
-					/*ft_putnbr(piece_coord[0]);
+					ft_putnbr(piece_coord[0]);
 					ft_putchar(' ');
 					ft_putnbr(piece_coord[1]);
-					ft_putchar('\n');*/
+					ft_putchar('\n');
 					return (1);
 				}
 			}
@@ -238,6 +238,7 @@ void	play(t_env *e)
 	int map_coord[2];
 
 	map_coord[0] = 0;
+
 	while (map_coord[0] < e->map_size[0]) // < ?
 	{
 		map_coord[1] = 0;
@@ -264,24 +265,18 @@ int main()
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
 	//printf("PLOP\n");
-	while ((get_next_line(0, &line) > 0))
-	{
+	while (get_next_line(0, &line) > 0)
+	{		
 		if (strstr(line, "$$$") && !e->player)
 			e->player = get_player(line); // Penser a proteger
 		if (strstr(line, "Plateau"))
-		{
 			e->map = get_map();
+		if (strstr(line, "Piece")) // A verifier
+		{
+			e->piece = get_piece();
 			break ;
-			if (!strstr(line, "Piece")) // A verifier
-			{
-				printf("ERROR\n");
-				return (0);
-			}
 		}
-	}
-	ft_putstr("1 2\n");
-	
-	e->piece = get_piece();
+	}	
 	check_map(e);
 	check_piece(e);
 	play(e);
