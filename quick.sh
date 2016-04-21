@@ -1,1 +1,1 @@
-git add -A ; git commit -m "init" ; git push origin master
+git add -A ; git commit -m "algo" ; git push origin master

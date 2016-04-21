@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/18 17:02:04 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/20 14:50:54 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/04/21 16:40:44 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ int check_piece(t_env *e)
 		y = 0;
 		while (e->piece[x][y])
 		{
-			ft_putchar(e->piece[x][y]);
+			//ft_putchar(e->piece[x][y]);
 			y++;
 		}
-		ft_putchar('\n');
+		//ft_putchar('\n');
 		x++;
 	}
 	e->piece_size[0] = x;
 	e->piece_size[1] = y;
-	printf("x = %i, y = %i\n", x, y);
+	//printf("x = %i, y = %i\n", x, y);
 	return (0);
 }
 int check_map(t_env *e)
@@ -63,15 +63,15 @@ int check_map(t_env *e)
 		y = 0;
 		while (e->map[x][y])
 		{
-			ft_putchar(e->map[x][y]);
+			//ft_putchar(e->map[x][y]);
 			y++;
 		}
-		ft_putchar('\n');
+		//ft_putchar('\n');
 		x++;
 	}
 	e->map_size[0] = x;
 	e->map_size[1] = y;
-	printf("x = %i, y = %i\n", x, y);
+	//printf("x = %i, y = %i\n", x, y);
 	return (0);
 }
 
@@ -110,7 +110,6 @@ char	get_player_char(int player)
 
 int	*next_star(t_env *e, int piece_coord[2])
 {
-	printf("PLOPLPOP = %i, %i\n", piece_coord[0], piece_coord[1]);
 	while (piece_coord[0] < e->piece_size[0])
 	{
 		while (++piece_coord[1] < e->piece_size[1])
@@ -134,9 +133,6 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2
 	int x;
 	int y;
 
-	//x = piece_coord[0];
-	//y = piece_coord[1];
-
 	(void)map_coord;
 	x = 0;
 	while (x < e->piece_size[0])
@@ -146,23 +142,14 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2
 		{
 			if (x != star_coord[0] && y != star_coord[1])
 			{
-				if (e->piece[x][y] == '*' )//&& e->map[] // need start of piece
+				if (e->piece[x][y] == '*' && e->map[piece_coord[0] + x][piece_coord[1] + y] == '.')
 					return (1);
 			}
+			y++;
 		}
+		x++;
 	}
 	return (0);
-	// while ((piece_coord = next_star(e, piece_coord)))
-	// {
-	// 	if ((map_coord[0] - piece_coord[0] >= 0) && (map_coord[1] - piece_coord[1] >= 0)
-	// 	{
-	// 		x = map_coord[0] + piece_coord[0];
-	// 		y = map_coord[1] + piece_coord[1];
-	// 		if (e->map[x][y] != '.')
-	// 			return (0);
-	// 	}
-	// }
-	// return (1);
 }
 
 int check_size()
@@ -175,15 +162,18 @@ int check_fill()
 	return (1);
 }
 
-/* Parcours la piece, cherche une etoile et la teste sur la position envoyer par play */
-
-int		*piece_coordinate(t_env *e, int map_coord[2], int star_coord[2])
+/*
+int		*piece_coordinate(int map_coord[2], int star_coord[2])
 {
 	int	piece_coord[2];
 
 	piece_coord[0] = map_coord[0] - star_coord[0];
 	piece_coord[1] = map_coord[1] - star_coord[1];
+	return (piece_coord);
 }
+*/
+
+/* Parcours la piece, cherche une etoile et la teste sur la position envoyer par play */
 
 int		test_piece(t_env *e, int map_coord[2])
 {
@@ -202,10 +192,14 @@ int		test_piece(t_env *e, int map_coord[2])
 			{
 				star_coord[0] = x;
 				star_coord[1] = y;
-				piece_coord = piece_coordinate(e, map_coord, star_coord);
+				piece_coord[0] = map_coord[0] - star_coord[0];
+				piece_coord[1] = map_coord[1] - star_coord[1];
+			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
-					
+				{
+					printf("%i %i\n",piece_coord[0], piece_coord[1]); // A deplacer, doit renvoyer debut piece
 					return (1);
+				}
 			}
 			y++;
 		}
@@ -230,7 +224,6 @@ void	play(t_env *e)
 			{
 				if (test_piece(e, map_coord))
 				{
-					printf("start = [%i,%i]\n", map_coord[0], map_coord[1]); // A deplacer, doit renvoyer debut piece
 					return ;
 				}
 			}
@@ -247,7 +240,6 @@ int main()
 
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
-	printf("START : \n");
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "$$$"))

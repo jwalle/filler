@@ -1,5 +1,6 @@
-seed = 7024
-X: error on input
+seed = 2172
+O: timedout
+./filler: Segfault at 0
 ./ex_filler/abanlin.filler won
 Score:
-14AGAINST13
+0AGAINST299
