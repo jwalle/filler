@@ -1,5 +1,5 @@
-seed = 8817
-O: error on input
+seed = 9310
+O: timedout
 ./ex_filler/abanlin.filler won
 Score:
-0AGAINST0
+1AGAINST10

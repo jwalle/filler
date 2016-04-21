@@ -41,10 +41,10 @@ int check_piece(t_env *e)
 		y = 0;
 		while (e->piece[x][y])
 		{
-			ft_putchar(e->piece[x][y]);
+			// ft_putchar(e->piece[x][y]);
 			y++;
 		}
-		ft_putchar('\n');
+		// ft_putchar('\n');
 		x++;
 	}
 	e->piece_size[0] = x;
@@ -61,13 +61,13 @@ int check_map(t_env *e)
 	while (e->map[x])
 	{
 		y = 0;
-		ft_putstr(e->map[x]);
+		// ft_putstr(e->map[x]);
 		while (e->map[x][y])
 		{
 			//ft_putchar(e->map[x][y]);
 			y++;
 		}
-		ft_putchar('\n');
+		// ft_putchar('\n');
 		x++;
 	}
 	e->map_size[0] = x;
@@ -76,9 +76,8 @@ int check_map(t_env *e)
 	return (0);
 }
 
-char **get_piece()
+char **get_piece(char *line)
 {
-	char	*line;
 	int		i;
 	int		y;
 	char	**piece;
@@ -95,9 +94,8 @@ char **get_piece()
 	return (piece);
 }
 
-char **get_map()
+char **get_map(t_env *e, char *line)
 {
-	char	*line;
 	int		i;
 	int		y;
 	char	**map;
@@ -108,7 +106,11 @@ char **get_map()
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "Piece"))
-			break ;
+		{
+			e->piece = get_piece(line);
+			return (map);
+		}
+		
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
 			i++;
@@ -265,15 +267,14 @@ int main()
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
 	//printf("PLOP\n");
-	while (get_next_line(0, &line) > 0)
+	ft_putstr("1 2\n");
+	while (get_next_line(0, &line) > 0) // BLOQUE ICI WTF
 	{		
 		if (strstr(line, "$$$") && !e->player)
 			e->player = get_player(line); // Penser a proteger
 		if (strstr(line, "Plateau"))
-			e->map = get_map();
-		if (strstr(line, "Piece")) // A verifier
 		{
-			e->piece = get_piece();
+			e->map = get_map(e, line);
 			break ;
 		}
 	}	
