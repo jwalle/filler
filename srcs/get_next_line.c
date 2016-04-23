@@ -12,6 +12,7 @@
 
 #include "../inc/get_next_line.h"
 
+
 char	*ft_strndup(const char *s1, int k)
 {
 	int		i;
@@ -75,7 +76,8 @@ int		get_next_line(int const fd, char **line)
 	if (!toto.size)
 	{		
 		tmp = malloc(BUFF_SIZE + 1);
-		while ((toto.i = read(fd, tmp, 100000)) > 0)
+		toto.i = read(fd, tmp, 1000);
+		if (toto.i)
 		{	
 			tmp[toto.i] = 0;
 			if (!toto.size)
@@ -90,8 +92,6 @@ int		get_next_line(int const fd, char **line)
 			}
 			toto.size += toto.i;	
 		}
-				ft_putstr_fd("--> PLOP <--\n", 2);
-
 		if (toto.i < 0)
 		{
 			toto.buf[0] = 0;

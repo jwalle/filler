@@ -30,6 +30,30 @@ void	init_env(t_env *e)
 	e->map_size[1] = 0;
 }
 
+char **get_piece(char *line)
+{
+	int		i;
+	int		y;
+	char	**piece;
+
+	y = 0;
+	piece = (char **)malloc(100000);
+	// ft_putstr_fd();
+	while ((get_next_line(0, &line) > 0))
+	{
+
+		if (!line[0])
+		{
+			return (piece);
+		}
+		i = 0;
+		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+			i++;	
+		piece[y++] = ft_strdup(&line[i]);
+	}
+	return (piece);
+}
+
 int check_piece(t_env *e)
 {
 	int x;
@@ -76,23 +100,7 @@ int check_map(t_env *e)
 	return (0);
 }
 
-char **get_piece(char *line)
-{
-	int		i;
-	int		y;
-	char	**piece;
 
-	y = 0;
-	piece = (char **)malloc(100000);
-	while ((get_next_line(0, &line) > 0))
-	{
-		i = 0;
-		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
-			i++;
-		piece[y++] = ft_strdup(&line[i]);
-	}
-	return (piece);
-}
 
 char **get_map(t_env *e, char *line)
 {
@@ -112,9 +120,12 @@ char **get_map(t_env *e, char *line)
 		}
 		
 		i = 0;
-		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+		while (line[i] && !strchr(FORMAT, line[i]))
+		{
 			i++;
+		}
 		map[y++] = ft_strdup(&line[i]);
+	
 	}
 	return (map);
 }
@@ -208,7 +219,6 @@ int		test_piece(t_env *e, int map_coord[2])
 			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
 				{
-					// printf("%i %i\n",piece_coord[0], piece_coord[1]); // A deplacer, doit renvoyer debut piece
 					ft_putnbr(piece_coord[0]);
 					ft_putchar(' ');
 					ft_putnbr(piece_coord[1]);
@@ -265,7 +275,7 @@ int main()
 			e->map = get_map(e, line);
 			break ;
 		}
-	}	
+	}
 	check_map(e);
 	check_piece(e);
 	play(e);
