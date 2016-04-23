@@ -13,7 +13,7 @@
 #include "filler.h"
 
 int	get_player(char *line)
-{
+{	
 	if (strstr(line, "p1"))
 		return (1);
 	else if (strstr(line, "p2"))
@@ -182,16 +182,6 @@ int check_fill()
 	return (1);
 }
 
-/*
-int		*piece_coordinate(int map_coord[2], int star_coord[2])
-{
-	int	piece_coord[2];
-
-	piece_coord[0] = map_coord[0] - star_coord[0];
-	piece_coord[1] = map_coord[1] - star_coord[1];
-	return (piece_coord);
-}
-*/
 
 /* Parcours la piece, cherche une etoile et la teste sur la position envoyer par play */
 
@@ -265,11 +255,9 @@ int main()
 	t_env	*e;
 
 	e = (t_env *)malloc(sizeof(t_env));
-	init_env(e);
-	//printf("PLOP\n");
-	ft_putstr("1 2\n");
+	init_env(e);	
 	while (get_next_line(0, &line) > 0) // BLOQUE ICI WTF
-	{		
+	{
 		if (strstr(line, "$$$") && !e->player)
 			e->player = get_player(line); // Penser a proteger
 		if (strstr(line, "Plateau"))
@@ -281,6 +269,5 @@ int main()
 	check_map(e);
 	check_piece(e);
 	play(e);
-	//printf("coucou\n");
 	return (0);
 }

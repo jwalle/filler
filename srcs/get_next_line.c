@@ -52,7 +52,7 @@ int		ft_cpy(t_static *toto, char **line)
 	k = 0;
 	if (!ft_set_zero(toto))
 		return (0);
-	while (toto->buf[k] != '\0' && toto->buf[k] != '\n')
+	while (toto->buf[k] != '\0' && toto->buf[k] != '\n' && toto->buf[k] != EOF)
 		k++;
 	*line = ft_strndup(toto->buf, k);
 	toto->cpy += k + 1;
@@ -71,25 +71,33 @@ int		get_next_line(int const fd, char **line)
 	char			*tmp;
 
 	if (BUFF_SIZE < 1 || fd < 0 || !line)
-		return (-1);	
+		return (-1);
 	if (!toto.size)
-	{
+	{		
 		tmp = malloc(BUFF_SIZE + 1);
-		while ((toto.i = read(fd, tmp, BUFF_SIZE)) > 0)
-		{
+		while ((toto.i = read(fd, tmp, 100000)) > 0)
+		{	
 			tmp[toto.i] = 0;
 			if (!toto.size)
-				toto.buf = ft_strdup(tmp);
+			{
+
+				toto.buf = strdup(tmp);
+
+			}
 			else
-				toto.buf = ft_strjoin(toto.buf, tmp);			
-			toto.size += toto.i;
+			{							
+				toto.buf = ft_strjoin(toto.buf, tmp);
+			}
+			toto.size += toto.i;	
 		}
+				ft_putstr_fd("--> PLOP <--\n", 2);
+
 		if (toto.i < 0)
 		{
 			toto.buf[0] = 0;
 			return (-1);
 		}
 		free(tmp);
-	}
+	}	
 	return (ft_cpy(&toto, line));
 }
