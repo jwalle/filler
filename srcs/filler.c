@@ -125,9 +125,9 @@ char **get_map(t_env *e, char *line)
 	y = 0;
 	map = (char **)malloc(100000);
 	get_next_line(0, &line);
+
 	while ((get_next_line(0, &line) > 0))
 	{
-		debug(line);
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line);
