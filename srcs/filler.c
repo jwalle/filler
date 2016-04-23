@@ -12,11 +12,13 @@
 
 #include "filler.h"
 
+#include <stdlib.h>
+
 void	debug(char *line)
 {
-	 ft_putstr_fd("LINE = ", 2);
-	 ft_putstr_fd(line, 2);
-	 ft_putstr_fd("						<--DEBUG\n", 2);
+	ft_putstr_fd("LINE = ", 2);
+	ft_putstr_fd(line, 2);
+	ft_putstr_fd("						<--DEBUG\n", 2);
 }
 
 int	get_player(char *line)
@@ -124,12 +126,12 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
-	debug(line);
+	// debug(line);
 	get_next_line(0, &line);
-	debug(line);
+	// debug(line);
 	while ((get_next_line(0, &line) > 0))
 	{
-	debug(line);
+	// debug(line);
 
 		if (strstr(line, "Piece"))
 		{
@@ -183,15 +185,18 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2
 
 	(void)map_coord;
 	x = 0;
-	while ((x < e->piece_size[0]) && (piece_coord[0] + x <= e->map_size[0]))
+	while ((x < e->piece_size[0]) && (piece_coord[0] + x < e->map_size[0]))
 	{
-		y = 0;
-		while ((y < e->piece_size[1]) && (piece_coord[1] + y <= e->map_size[1]))
+		y = 0;	
+		while ((y < e->piece_size[1]) && (piece_coord[1] + y < e->map_size[1]))
 		{
-			if (x != star_coord[0] && y != star_coord[1])
+			//debug("test piece");
+			if (x != star_coord[0] || y != star_coord[1])
 			{
-					if (e->piece[x][y] == '*' && e->map[piece_coord[0] + x][piece_coord[1] + y] != '.')
-						return (0);
+				//debug(ft_itoa(y));
+				//debug(ft_itoa(x));
+				if (e->piece[x][y] == '*' && e->map[piece_coord[0] + x][piece_coord[1] + y] != '.')
+					return (0);
 			}
 			y++;
 		}
@@ -200,13 +205,19 @@ int check_stars(t_env *e, int map_coord[2], int piece_coord[2], int star_coord[2
 	return (1);
 }
 
-int check_size()
+int check_size(t_env *e, int piece_coord[2])
 {
+	if ((piece_coord[0] + e->piece_size[0]) > e->map_size[0])
+		return (0);
+	if ((piece_coord[1] + e->piece_size[1]) > e->map_size[1])
+		return (0);
 	return (1);
 }
 
-int check_fill()
+int check_fill(int piece_coord[2])
 {
+	if (piece_coord[0] < 0 || piece_coord[1] < 0)
+		return (0);
 	return (1);
 }
 
@@ -220,21 +231,20 @@ int		test_piece(t_env *e, int map_coord[2])
 	int x;
 	int y;
 
-	x = 0;	
-	while (x <= e->piece_size[0])
+	x = 0;
+	while (x < e->piece_size[0])
 	{
 		y = 0;
-		while (y <= e->piece_size[1])
+		while (y < e->piece_size[1])
 		{
 			if (e->piece[x][y] == '*')
 			{
 				star_coord[0] = x;
 				star_coord[1] = y;
-				piece_coord[0] = map_coord[0] - star_coord[0];
-				piece_coord[1] = map_coord[1] - star_coord[1];
-
+				piece_coord[0] = map_coord[0] - star_coord[0]; // > 0
+				piece_coord[1] = map_coord[1] - star_coord[1]; // > 0
 			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
-				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
+				if (check_fill(piece_coord) && check_stars(e, map_coord, piece_coord, star_coord) && check_size(e, piece_coord))
 				{
 					ft_putnbr(piece_coord[0]);
 					ft_putchar(' ');
@@ -252,16 +262,21 @@ int		test_piece(t_env *e, int map_coord[2])
 
 /* Parcours la map et cherche les char du joueur */
 
+void	out_of_play()
+{
+	ft_putstr("0 0\n");
+}
+
 void	play(t_env *e)
 {
 	int map_coord[2];
 
 	map_coord[0] = 0;
 
-	while (map_coord[0] <= e->map_size[0]) // < ?
+	while (map_coord[0] < e->map_size[0]) // < ?
 	{
 		map_coord[1] = 0;
-		while (map_coord[1] <= e->map_size[1])
+		while (map_coord[1] < e->map_size[1])
 		{
 			if (e->map[map_coord[0]][map_coord[1]] == get_player_char(e->player))
 			{
@@ -274,6 +289,7 @@ void	play(t_env *e)
 		}
 		map_coord[0]++;
 	}
+	out_of_play();
 }
 
 int main()
