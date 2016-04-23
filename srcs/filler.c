@@ -30,22 +30,28 @@ void	init_env(t_env *e)
 	e->map_size[1] = 0;
 }
 
+int	get_size(char *line)
+{
+	char	**plop;
+
+	plop = ft_strsplit(line, ' ');
+	return (atoi(plop[1]));
+}
+
 char **get_piece(char *line)
 {
 	int		i;
 	int		y;
+	int		size;
 	char	**piece;
 
 	y = 0;
 	piece = (char **)malloc(100000);
-	// ft_putstr_fd();
-	while ((get_next_line(0, &line) > 0))
+	//if (strstr(line, "Piece"))
+	size = get_size(line);
+	while (size--)
 	{
-
-		if (!line[0])
-		{
-			return (piece);
-		}
+		get_next_line(0, &line);
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
 			i++;	
@@ -110,6 +116,9 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
+	 // ft_putstr_fd("LINE = ", 2);
+	 // ft_putstr_fd(line, 2);
+	 // ft_putstr_fd("\n", 2);
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
@@ -219,6 +228,7 @@ int		test_piece(t_env *e, int map_coord[2])
 			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
 				{
+					ft_putstr_fd("PLOP\n", 2);
 					ft_putnbr(piece_coord[0]);
 					ft_putchar(' ');
 					ft_putnbr(piece_coord[1]);
@@ -264,6 +274,7 @@ int main()
 	char	*line;
 	t_env	*e;
 
+	ft_putstr_fd("							--> PLOP <--\n" ,2);
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);	
 	while (get_next_line(0, &line) > 0) // BLOQUE ICI WTF
@@ -273,11 +284,11 @@ int main()
 		if (strstr(line, "Plateau"))
 		{
 			e->map = get_map(e, line);
-			break ;
+			check_map(e);
+			check_piece(e);
+			play(e);
+			//break ;
 		}
 	}
-	check_map(e);
-	check_piece(e);
-	play(e);
 	return (0);
 }

@@ -1,5 +1,4 @@
-seed = 7248
-O: timedout
+seed = 6262
 ./ex_filler/abanlin.filler won
 Score:
-0AGAINST10
+1AGAINST10
