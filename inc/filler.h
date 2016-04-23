@@ -17,6 +17,7 @@
 #include "libft.h"
 #include "get_next_line.h"
 #define FORMAT "*.OoxX"
+
 typedef struct	s_env
 {
 	int			player;
@@ -25,5 +26,7 @@ typedef struct	s_env
 	int			piece_size[2];
 	int			map_size[2];
 }				t_env;
+
+void	debug(char *line);
 
 #endif

@@ -58,7 +58,7 @@ char **get_piece(char *line)
 	size = get_size(line);
 	while (size--)
 	{
-		debug(line);
+		//debug(line);
 		get_next_line(0, &line);
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
@@ -124,10 +124,13 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
+	debug(line);
 	get_next_line(0, &line);
-
+	debug(line);
 	while ((get_next_line(0, &line) > 0))
 	{
+	debug(line);
+
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line);
@@ -218,10 +221,10 @@ int		test_piece(t_env *e, int map_coord[2])
 	int y;
 
 	x = 0;	
-	while (x < e->piece_size[0])
+	while (x <= e->piece_size[0])
 	{
 		y = 0;
-		while (y < e->piece_size[1])
+		while (y <= e->piece_size[1])
 		{
 			if (e->piece[x][y] == '*')
 			{
@@ -255,10 +258,10 @@ void	play(t_env *e)
 
 	map_coord[0] = 0;
 
-	while (map_coord[0] < e->map_size[0]) // < ?
+	while (map_coord[0] <= e->map_size[0]) // < ?
 	{
 		map_coord[1] = 0;
-		while (map_coord[1] < e->map_size[1])
+		while (map_coord[1] <= e->map_size[1])
 		{
 			if (e->map[map_coord[0]][map_coord[1]] == get_player_char(e->player))
 			{

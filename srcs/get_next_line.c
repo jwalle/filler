@@ -13,6 +13,57 @@
 #include "../inc/get_next_line.h"
 
 
+void				ft_buf_to_tmp(int rd, char *buf, char **tmp)
+{
+	char			*sw;
+
+	buf[rd] = '\0';
+	sw = *tmp;
+	*tmp = ft_strjoin(sw, buf);
+	ft_strdel(&sw);
+}
+
+void				ft_tmp_to_line(char **line, char **tmp)
+{
+	char			*buf;
+	int				len;
+
+	len = ft_strlen(*tmp) - ft_strlen(ft_strchr(*tmp, '\n'));
+	*line = ft_strsub(*tmp, 0, len);
+	buf = *tmp;
+	*tmp = ft_strdup(ft_strchr(*tmp, '\n') + 1);
+	ft_strdel(&buf);
+}
+
+int					get_next_line(int const fd, char **line)
+{
+	char			buf[BUFF_SIZE + 1];
+	int				rd;
+	static char		*tmp;
+
+	rd = 0;
+	if (!line || fd < 0)
+		return (-1);
+	if (!tmp)
+		tmp = ft_strnew(0);
+	while (!(ft_strchr(tmp, '\n')) && (rd = read(fd, buf, BUFF_SIZE)) > 0)
+		ft_buf_to_tmp(rd, buf, &tmp);
+	if (rd < 0)
+		return (-1);
+	if (!(ft_strchr(tmp, '\n')))
+	{
+		if (!(rd))
+		{
+			*line = tmp;
+			tmp = NULL;
+			return (0);
+		}
+	}
+	ft_tmp_to_line(line, &tmp);
+	return (1);
+}
+
+/*
 char	*ft_strndup(const char *s1, int k)
 {
 	int		i;
@@ -74,9 +125,10 @@ int		get_next_line(int const fd, char **line)
 	if (BUFF_SIZE < 1 || fd < 0 || !line)
 		return (-1);
 	if (!toto.size)
-	{		
+	{
 		tmp = malloc(BUFF_SIZE + 1);
-		toto.i = read(fd, tmp, 1000);
+		toto.i = read(fd, tmp, BUFF_SIZE);
+		debug(tmp);
 		if (toto.i)
 		{	
 			tmp[toto.i] = 0;
@@ -99,3 +151,5 @@ int		get_next_line(int const fd, char **line)
 	}	
 	return (ft_cpy(&toto, line));
 }
+
+*/
