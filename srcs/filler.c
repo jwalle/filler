@@ -22,7 +22,7 @@ void	debug(char *line)
 int	get_player(char *line)
 {	
 	if (strstr(line, "p1"))
-		return (1);
+		return (1);	
 	else if (strstr(line, "p2"))
 		return (2);
 	return (0);
@@ -127,7 +127,7 @@ char **get_map(t_env *e, char *line)
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
-		//debug(line);
+		debug(line);
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line);
@@ -278,7 +278,7 @@ int main()
 	char	*line;
 	t_env	*e;
 
-	ft_putstr_fd("							--> PLOP <--\n" ,2);
+	//ft_putstr_fd("							--> PLOP <--\n" ,2);
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);	
 	while (get_next_line(0, &line) > 0) // BLOQUE ICI WTF

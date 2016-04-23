@@ -82,9 +82,7 @@ int		get_next_line(int const fd, char **line)
 			tmp[toto.i] = 0;
 			if (!toto.size)
 			{
-
 				toto.buf = strdup(tmp);
-
 			}
 			else
 			{							
