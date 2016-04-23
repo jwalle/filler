@@ -12,6 +12,13 @@
 
 #include "filler.h"
 
+void	debug(char *line)
+{
+	 ft_putstr_fd("LINE = ", 2);
+	 ft_putstr_fd(line, 2);
+	 ft_putstr_fd("						<--DEBUG\n", 2);
+}
+
 int	get_player(char *line)
 {	
 	if (strstr(line, "p1"))
@@ -51,6 +58,7 @@ char **get_piece(char *line)
 	size = get_size(line);
 	while (size--)
 	{
+		debug(line);
 		get_next_line(0, &line);
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
@@ -91,13 +99,13 @@ int check_map(t_env *e)
 	while (e->map[x])
 	{
 		y = 0;
-		// ft_putstr(e->map[x]);
+		//ft_putstr_fd(e->map[x], 2);
 		while (e->map[x][y])
 		{
 			//ft_putchar(e->map[x][y]);
 			y++;
 		}
-		// ft_putchar('\n');
+		//ft_putchar_fd('\n', 2);
 		x++;
 	}
 	e->map_size[0] = x;
@@ -116,12 +124,10 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
-	 // ft_putstr_fd("LINE = ", 2);
-	 // ft_putstr_fd(line, 2);
-	 // ft_putstr_fd("\n", 2);
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
+		//debug(line);
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line);
@@ -134,7 +140,6 @@ char **get_map(t_env *e, char *line)
 			i++;
 		}
 		map[y++] = ft_strdup(&line[i]);
-	
 	}
 	return (map);
 }
@@ -228,7 +233,6 @@ int		test_piece(t_env *e, int map_coord[2])
 			//	piece_coord = piece_coordinate(e, map_coord, star_coord);
 				if (check_stars(e, map_coord, piece_coord, star_coord) && check_size() && check_fill())
 				{
-					ft_putstr_fd("PLOP\n", 2);
 					ft_putnbr(piece_coord[0]);
 					ft_putchar(' ');
 					ft_putnbr(piece_coord[1]);
