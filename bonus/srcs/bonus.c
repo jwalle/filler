@@ -6,23 +6,42 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/23 18:36:24 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/23 18:40:42 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/04/23 19:49:05 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/filler.h"
 
+#define RED "\x1B[31m"
+#define GREEN "\x1B[32m"
+#define RESET "\x1B[0m"
+
+void ft_putchar_color(char c, char *str)
+{
+	ft_putstr(str);
+	ft_putchar(c);
+	ft_putstr(RESET);
+}
 
 int	main()
 {
 	int i;
 	char *line;
 
-	while (1)
+	while (get_next_line(0, &line) > 0)
 	{
-		get_next_line(1, &line);
-		ft_putstr("LINE =");
-		ft_putstr(line);
+		i = 0;
+		while (line[i])
+		{
+			if (line[i] == 'X')
+				ft_putchar_color('X', RED);
+			else if (line[i] == 'O')
+				ft_putchar_color('O', GREEN);
+			else
+				ft_putchar(line[i]);
+			i++;
+		}
+		ft_putchar('\n');
 	}
 	return (0);
 }

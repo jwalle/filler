@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/23 18:41:47 by jwalle           ###   ########.fr        #
+#    Updated: 2016/04/23 19:13:17 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC 		=	bonus.c \
 
 INC			=	-I../inc -I../libft/includes
 LINK		=	-L../libft -lft
-SRCDIR		= .
+SRCDIR		= ./srcs/
 ODIR		= ./objs/
 
 CFLAGS		=	-Wall -Wextra -Werror
