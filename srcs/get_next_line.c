@@ -12,7 +12,6 @@
 
 #include "../inc/get_next_line.h"
 
-
 void				ft_buf_to_tmp(int rd, char *buf, char **tmp)
 {
 	char			*sw;

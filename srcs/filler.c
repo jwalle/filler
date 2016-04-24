@@ -12,8 +12,6 @@
 
 #include "filler.h"
 
-
-
 int		test_piece(t_env *e, int map_coord[2])
 {
 	int	star_coord[2];
@@ -48,12 +46,13 @@ void	play(t_env *e)
 	int map_coord[2];
 
 	map_coord[0] = -1;
-	while (++map_coord[0] < e->map_size[0]) // < ?
+	while (++map_coord[0] < e->map_size[0])
 	{
 		map_coord[1] = -1;
 		while (++map_coord[1] < e->map_size[1])
 		{
-			if (e->map[map_coord[0]][map_coord[1]] == get_player_char(e->player))
+			if (e->map[map_coord[0]][map_coord[1]]
+				== get_player_char(e->player))
 			{
 				if (test_piece(e, map_coord))
 					return ;
@@ -63,13 +62,13 @@ void	play(t_env *e)
 	out_of_play();
 }
 
-int main()
+int		main(void)
 {
 	char	*line;
 	t_env	*e;
 
 	e = (t_env *)malloc(sizeof(t_env));
-	init_env(e);	
+	init_env(e);
 	while (get_next_line(0, &line) > 0)
 	{
 		if (strstr(line, "$$$") && !e->player)
