@@ -6,7 +6,7 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/23 18:36:24 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/24 14:40:50 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/04/24 16:26:21 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	main()
 				ft_putchar_color('X', RED);
 			else if (line[i] == 'O')
 				ft_putchar_color('O', GREEN);
-			else if (strstr(line, "Plateau"))
-			{
-				system("clear");
-			}
+			//else if (strstr(line, "Plateau"))
+			//{
+			//	system("clear");
+			//}
 			else
 				ft_putchar(line[i]);
 			i++;
