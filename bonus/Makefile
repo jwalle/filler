@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/23 19:13:17 by jwalle           ###   ########.fr        #
+#    Updated: 2016/04/24 17:47:24 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
-	$(CC) -o $(NAME) $(LINK) $^ 
+	$(CC) -o $(NAME) $(LINK) $^ -lncurses 
 
 $(ODIR)%.o : $(SRCDIR)%.c
 	$(CC) $(FLAGS) $(INC) -c $^ -o $@

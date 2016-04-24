@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/filler.h"
+#include <curses.h>
 
 #define RED "\x1B[31m"
 #define GREEN "\x1B[32m"
@@ -26,9 +27,11 @@ void ft_putchar_color(char c, char *str)
 int	main()
 {
 	int i;
+	int j;
+	//char *str;
 	char *line;
 
-	//initscr();
+	initscr();
 	//start_color();
 	//COLOR_PAIRS = 2049;
 	//ft_init_color();
@@ -36,25 +39,17 @@ int	main()
 	//getmaxyx(stdscr, toto.row, toto.col);
 	//toto.size_board = 100; // ?
 	//toto.x = 1; // cell size
+	j = 0;
 	while (get_next_line(0, &line) > 0)
 	{
 		i = 0;
 		while (line[i])
 		{
-			if (line[i] == 'X')
-				ft_putchar_color('X', RED);
-			else if (line[i] == 'O')
-				ft_putchar_color('O', GREEN);
-			//else if (strstr(line, "Plateau"))
-			//{
-			//	system("clear");
-			//}
-			else
-				ft_putchar(line[i]);
+			mvprintw(j, i, &line[i]);
 			i++;
 		}
-		ft_putchar('\n');
+		j++;
 	}
-	// refresh();
+	refresh();
 	return (0);
 }
