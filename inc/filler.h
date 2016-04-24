@@ -27,6 +27,19 @@ typedef struct	s_env
 	int			map_size[2];
 }				t_env;
 
-void	debug(char *line);
+void			init_env(t_env *e);
+void			out_of_play();
+int				put_result(int piece_coord[2]);
+void			debug(char *line);
+int				get_player(char *line);
+int				get_size(char *line);
+char			**get_piece(char *line);
+char			**get_map(t_env *e, char *line);
+char			get_player_char(int player);
+int				check_stars(t_env *e, int piece_coord[2], int star_coord[2]);
+int				check_size(t_env *e, int piece_coord[2]);
+int				check_fill(int piece_coord[2]);
+int				check_piece(t_env *e);
+int				check_map(t_env *e);
 
 #endif

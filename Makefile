@@ -14,6 +14,9 @@ NAME 		= filler
 
 SRC 		=	filler.c \
 				get_next_line.c \
+				misc.c \
+				check.c \
+				get_all.c \
 
 INC			=	-I./inc -I./libft/includes
 LINK		=	-Llibft -lft
