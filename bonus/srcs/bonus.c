@@ -28,6 +28,14 @@ int	main()
 	int i;
 	char *line;
 
+	//initscr();
+	//start_color();
+	//COLOR_PAIRS = 2049;
+	//ft_init_color();
+	//curs_set(0);
+	//getmaxyx(stdscr, toto.row, toto.col);
+	//toto.size_board = 100; // ?
+	//toto.x = 1; // cell size
 	while (get_next_line(0, &line) > 0)
 	{
 		i = 0;
@@ -47,5 +55,6 @@ int	main()
 		}
 		ft_putchar('\n');
 	}
+	// refresh();
 	return (0);
 }
