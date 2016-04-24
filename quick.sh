@@ -1,1 +1,1 @@
-git add -A ; git commit -m "norminette" ; git push origin master
+git add -A ; git commit -m "display" ; git push origin master
