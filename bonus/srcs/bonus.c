@@ -76,9 +76,9 @@ int check_map(t_env *e)
 			}
 			else if (e->map[x][y] == '.')
 			{
-				attron(COLOR_PAIR(16));
+				attron(COLOR_PAIR(32));
 				mvprintw(x + i, y * 4, "| . ");
-				attroff(COLOR_PAIR(16));
+				attroff(COLOR_PAIR(32));
 			}
 			mvprintw(x + i, y * 4, "|");
 			//ft_putchar_fd(e->map[x][y], 2);
@@ -190,13 +190,15 @@ int	main()
 				//get_size_bonus(line, size);
 				e->map = get_map(e, line);
 				check_map(e);
+				usleep(50000);
 				refresh();
+
 			}
 			//mvprintw(j, i, &line[i]);
 			i++;
+
 		}
 		j++;
-		sleep(1);
 		//getch();
 	}
 	endwin();
