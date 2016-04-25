@@ -197,7 +197,7 @@ int	main()
 		}
 		j++;
 		sleep(1);
-		getch();
+		//getch();
 	}
 	endwin();
 	return (0);
