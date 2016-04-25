@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/filler.h"
+#include "filler.h"
 #include <curses.h>
 
 #define RED "\x1B[31m"
@@ -24,17 +24,131 @@ void ft_putchar_color(char c, char *str)
 	ft_putstr(RESET);
 }
 
+static void		ft_init_color(void)
+{
+	init_color(COLOR_RED, 500, 300, 200);
+	init_color(COLOR_MAGENTA, 304, 200, 209);
+	init_color(COLOR_CYAN, 304, 222, 100);
+	init_color(COLOR_WHITE, 155 * 4, 160 * 4, 160 * 4);
+	init_pair(1, COLOR_RED, COLOR_GREEN);
+	init_pair(2, COLOR_BLACK, COLOR_WHITE);
+	init_pair(4, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(8, COLOR_BLACK, COLOR_RED);
+	init_pair(16, COLOR_BLACK, COLOR_MAGENTA);
+	init_pair(32, COLOR_BLACK, COLOR_CYAN);
+	init_pair(64, COLOR_YELLOW, COLOR_CYAN);
+	init_pair(128, COLOR_RED, COLOR_CYAN);
+	init_pair(256, COLOR_MAGENTA, COLOR_RED);
+	init_pair(512, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(1024, COLOR_YELLOW, COLOR_GREEN);
+	init_pair(2048, COLOR_YELLOW, COLOR_WHITE);
+}
+
+int check_map(t_env *e)
+{
+	int x;
+	int y;
+
+	x = 0;
+	while (e->map[x])
+	{
+		y = 0;
+		//ft_putstr_fd(e->map[x], 2);
+		while (e->map[x][y])
+		{
+			if (e->map[x][y] == 'X')
+			{
+				attron(COLOR_PAIR(2));
+				
+				mvprintw(x, y, "| X");
+				
+				attroff(COLOR_PAIR(2));
+
+			}
+			
+			//ft_putchar(e->map[x][y]);
+			y++;
+		}
+		mvprintw(x, y, "\n");
+		//ft_putchar_fd('\n', 2);
+		x++;
+	}
+	e->map_size[0] = x;
+	e->map_size[1] = y;
+	//printf("x = %i, y = %i\n", x, y);
+	return (0);
+}
+
+void	get_size_bonus(char *line, int size[2])
+{
+	char	**plop;
+
+	plop = ft_strsplit(line, ' ');
+	size[0] = ft_atoi(plop[1]);
+	size[1] = ft_atoi(plop[2]);
+ 	free(plop);
+}
+
+char **get_piece(char *line)
+{
+	int		i;
+	int		y;
+	int		size[2];
+	char	**piece;
+
+	y = 0;
+	piece = (char **)malloc(100000);
+	//if (strstr(line, "Piece"))
+	get_size_bonus(line, size);
+	while (size[0]--)
+	{
+		get_next_line(0, &line);
+		i = 0;
+		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+			i++;	
+		piece[y++] = ft_strdup(&line[i]);
+	}
+	return (piece);
+}
+
+char **get_map(t_env *e, char *line)
+{
+	int		i;
+	int		y;
+	char	**map;
+
+	y = 0;
+	map = (char **)malloc(100000);
+	get_next_line(0, &line);
+	while ((get_next_line(0, &line) > 0))
+	{
+		if (strstr(line, "Piece"))
+		{
+			e->piece = get_piece(line);
+			return (map);
+		}
+		i = 0;
+		while (line[i] && !strchr(FORMAT, line[i]))
+			i++;
+		map[y++] = ft_strdup(&line[i]);
+	}
+	return (map);
+}
+
 int	main()
 {
 	int i;
+	//int size[2];
 	int j;
+	t_env *e;
 	//char *str;
 	char *line;
 
+	e = (t_env *)malloc(sizeof(t_env));
 	initscr();
-	//start_color();
-	//COLOR_PAIRS = 2049;
-	//ft_init_color();
+	start_color();
+	COLOR_PAIRS = 2049;
+	ft_init_color();
 	//curs_set(0);
 	//getmaxyx(stdscr, toto.row, toto.col);
 	//toto.size_board = 100; // ?
@@ -45,11 +159,19 @@ int	main()
 		i = 0;
 		while (line[i])
 		{
-			mvprintw(j, i, &line[i]);
+			if (strstr(line, "Plateau"))
+			{
+				//get_size_bonus(line, size);
+				get_map(e, line);
+			}
+			//mvprintw(j, i, &line[i]);
 			i++;
 		}
 		j++;
+		check_map(e);
+		//getch();
 	}
 	refresh();
+	endwin();
 	return (0);
 }

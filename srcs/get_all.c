@@ -26,7 +26,7 @@ int	get_size(char *line)
 	char	**plop;
 	int		size;
 
-	plop = ft_strsplit(line, ' '); // free later
+	plop = ft_strsplit(line, ' ');
 	size = ft_atoi(plop[1]);
 	free(plop);
 	return (size);

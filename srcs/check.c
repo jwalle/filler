@@ -78,6 +78,7 @@ int check_piece(t_env *e)
 	//printf("x = %i, y = %i\n", x, y);
 	return (0);
 }
+
 int check_map(t_env *e)
 {
 	int x;
