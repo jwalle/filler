@@ -48,28 +48,43 @@ int check_map(t_env *e)
 {
 	int x;
 	int y;
+	int i;
+	int len;
 
 	x = 0;
+	i = 0;
 	while (e->map[x])
 	{
 		y = 0;
-		//ft_putstr_fd(e->map[x], 2);
+		len = strlen(e->map[x]) * 4;
+		while (len--)
+			mvprintw(x + i, len, "_");
+		i++;
 		while (e->map[x][y])
 		{
 			if (e->map[x][y] == 'X')
 			{
-				attron(COLOR_PAIR(2));
-				
-				mvprintw(x, y, "| X");
-				
-				attroff(COLOR_PAIR(2));
-
+				attron(COLOR_PAIR(4));
+				mvprintw(x + i, y * 4, "| X ");
+				attroff(COLOR_PAIR(4));
 			}
-			
-			//ft_putchar(e->map[x][y]);
+			else if (e->map[x][y] == 'O')
+			{
+				attron(COLOR_PAIR(8));
+				mvprintw(x + i, y * 4, "| O ");
+				attroff(COLOR_PAIR(32));
+			}
+			else if (e->map[x][y] == '.')
+			{
+				attron(COLOR_PAIR(16));
+				mvprintw(x + i, y * 4, "| . ");
+				attroff(COLOR_PAIR(16));
+			}
+			mvprintw(x + i, y * 4, "|");
+			//ft_putchar_fd(e->map[x][y], 2);
 			y++;
 		}
-		mvprintw(x, y, "\n");
+		mvprintw(x, y  * 4, "\n");
 		//ft_putchar_fd('\n', 2);
 		x++;
 	}
@@ -135,6 +150,15 @@ char **get_map(t_env *e, char *line)
 	return (map);
 }
 
+void	init_env(t_env *e)
+{
+	e->player = 0;
+	e->piece_size[0] = 0;
+	e->piece_size[1] = 0;
+	e->map_size[0] = 0;
+	e->map_size[1] = 0;
+}
+
 int	main()
 {
 	int i;
@@ -145,8 +169,10 @@ int	main()
 	char *line;
 
 	e = (t_env *)malloc(sizeof(t_env));
+	init_env(e);
 	initscr();
 	start_color();
+	
 	COLOR_PAIRS = 2049;
 	ft_init_color();
 	//curs_set(0);
@@ -162,16 +188,17 @@ int	main()
 			if (strstr(line, "Plateau"))
 			{
 				//get_size_bonus(line, size);
-				get_map(e, line);
+				e->map = get_map(e, line);
+				check_map(e);
+				refresh();
 			}
 			//mvprintw(j, i, &line[i]);
 			i++;
 		}
 		j++;
-		check_map(e);
-		//getch();
+		sleep(1);
+		getch();
 	}
-	refresh();
 	endwin();
 	return (0);
 }
