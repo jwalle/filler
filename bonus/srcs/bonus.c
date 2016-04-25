@@ -44,27 +44,34 @@ static void		ft_init_color(void)
 	init_pair(2048, COLOR_YELLOW, COLOR_WHITE);
 }
 
+void	print_line(int x, int i, int len)
+{
+	int p;
+
+	p = 0;
+	mvprintw(x + i, 0, ">");
+	while (p++ < len)
+		mvprintw(x + i, p, "_");
+	mvprintw(x + i, len, "<");
+}
+
+
 int check_map_bonus(t_env *e, int size[2])
 {
 	int x;
 	int y;
 	int i;
 	int len;
-	int p;
 
 	x = 0;
 	i = 0;
 	while (x <= size[0])
 	{
-		p = 0;
 		y = 0;
 		if (!e->map[x])
 			return (0);
 		len = strlen(e->map[x]) * 4;
-			mvprintw(x + i, 0, "P");
-		while (p++ < len)
-			mvprintw(x + i, p, "_");
-		mvprintw(x + i, len, "K");
+		print_line(x, i, len);
 		i++;
 		y = 0;
 		while (y <= size[1])
@@ -106,9 +113,7 @@ int check_map_bonus(t_env *e, int size[2])
 		//ft_putchar_fd('\n', 2);
 		x++;
 	}
-	p  = 0;
-	while (p++ < len)
-		mvprintw(x + i, p, "_");
+	print_line(x, i, len);
 	e->map_size[0] = x;
 	e->map_size[1] = y;
 	//printf("x = %i, y = %i\n", x, y);
@@ -164,8 +169,10 @@ char **get_map(t_env *e, char *line)
 			return (map);
 		}
 		i = 0;
-		while (line[i] && !strchr(FORMAT, line[i]))
+		//while (line[i] && !strchr(FORMAT, line[i]))
+		while (ft_isdigit(line[i]))
 			i++;
+		i++;
 		map[y++] = ft_strdup(&line[i]);
 	}
 	return (map);
