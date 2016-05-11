@@ -35,8 +35,8 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:
-	cmake -B./glfw -H./glfw
-	make -C ./glfw
+	#cmake -B./glfw -H./glfw
+	#make -C ./glfw
 	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
 
 clean		:

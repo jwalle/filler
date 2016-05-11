@@ -19,6 +19,9 @@
 #define GREEN "\x1B[32m"
 #define RESET "\x1B[0m"
 
+#define WIDTH 1200
+#define HEIGHT 1000
+
 void ft_putchar_color(char c, char *str)
 {
 	ft_putstr(str);
@@ -155,6 +158,55 @@ void	init_env(t_env *e)
 	e->map_size[1] = 0;
 }
 
+/*
+** first value bottom left
+** second value bottom right
+** third value top right
+** fourth value top left
+*/
+
+void disp_grid(int size[2])
+{
+	float x;
+	int col;
+	int line;
+
+	x = 0;
+	col = size[0];
+	line = size[1];
+	printf("size = (%i,%i)\n", size[0], size[1]);
+	/*while (col)
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex2d(-0.95f + x, -0.95f); // bottom left
+		glVertex2d(-0.945f + x, -0.95f); // bottom right
+		glVertex2d(-0.945f + x, 0.95f); // top right
+		glVertex2d(-0.95f + x, 0.95f); // top left
+		glEnd();
+		col--;
+		x += 0.05f;
+	}*/
+	while (col)
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_LINE_LOOP);
+		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point gauche (x + col, y ->)
+		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , -0.95); // point droit (x + col, y ->)
+		glEnd();				 
+		col--;
+	}
+	while (line)
+	{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_LINE_LOOP);
+		glVertex2d(-0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point gauche (x + col, y ->)
+		glVertex2d(0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
+		glEnd();				 
+		line--;
+	}
+}
+
 int	main()
 {
 	int i;
@@ -164,35 +216,47 @@ int	main()
 	t_env *e;
 	//char *str;
 	char *line;
+	int width = 1200;
+	int height = 1000;
 
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
 	if (!glfwInit())
 		return (-1);
-	win = glfwCreateWindow(640, 480, "Filler", NULL, NULL);
+	win = glfwCreateWindow(1200, 1000, "Filler", NULL, NULL);
 	if (!win)
 	{
 		glfwTerminate();
 		return (-1);
 	}
 	glfwMakeContextCurrent(win);
-	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win)) 
+	while (!glfwWindowShouldClose(win))
 	{
-		i = 0;
-		while (line[i])
-		{
-			if (strstr(line, "Plateau"))
-			{
-				get_size_bonus(line, size);
-				e->map = get_map(e, line);
-				check_map_bonus(e, size);
-			}
-			i++;
+		while ((get_next_line(0, &line) > 0)) 
+		{		
+			glfwGetFramebufferSize(win, &width, &height);
+			printf("PLOP\n");
 
+			glViewport(0, 0, 1200, 1000);
+		
+			glClear(GL_COLOR_BUFFER_BIT);
+			i = 0;
+			while (line[i])
+			{
+				if (strstr(line, "Plateau"))
+				{
+					get_size_bonus(line, size);
+					disp_grid(size);
+					e->map = get_map(e, line);
+					check_map_bonus(e, size);
+				}
+				i++;
+
+			}
+			j++;
+			glfwSwapBuffers(win);
+			glfwPollEvents();
 		}
-		j++;
-		glfwSwapBuffers(win);
-		glfwPollEvents();
 	}
 	glfwTerminate();
 	return (0);
