@@ -15,8 +15,10 @@ NAME 		= bonus
 SRC 		=	bonus.c \
 				get_next_line.c \
 
-INC			=	-I../inc -I../libft/includes
-LINK		=	-L../libft -lft
+OBJ			= $(SRC:.c=.o)
+
+INC			=	-I../inc -I../libft/includes -I./glfw/include
+LINK		=	-L../libft -lft -L./glfw/src/ -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework GLUT -framework Carbon
 SRCDIR		= ./srcs/
 ODIR		= ./objs/
 
@@ -27,15 +29,15 @@ CC			=	clang
 RM			=	/bin/rm -f
 
 OBJ			=	$(SRC:.c=.o)
+SRCS		= 	$(addprefix $(SRCDIR), $(SRC))
 OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 
 all			:	$(NAME)
 
-$(NAME)		:	$(OBJS)
-	$(CC) -o $(NAME) $(LINK) $^ -lncurses 
-
-$(ODIR)%.o : $(SRCDIR)%.c
-	$(CC) $(FLAGS) $(INC) -c $^ -o $@
+$(NAME)		:
+	cmake -B./glfw -H./glfw
+	make -C ./glfw
+	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
 
 clean		:
 	$(RM) $(OBJS)

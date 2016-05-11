@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "filler.h"
-#include <curses.h>
+#include <GLFW/glfw3.h>
+# include <GLUT/glut.h>
+
 
 #define RED "\x1B[31m"
 #define GREEN "\x1B[32m"
@@ -23,38 +25,6 @@ void ft_putchar_color(char c, char *str)
 	ft_putchar(c);
 	ft_putstr(RESET);
 }
-
-static void		ft_init_color(void)
-{
-	init_color(COLOR_RED, 500, 300, 200);
-	init_color(COLOR_MAGENTA, 304, 200, 209);
-	init_color(COLOR_CYAN, 304, 222, 100);
-	init_color(COLOR_WHITE, 155 * 4, 160 * 4, 160 * 4);
-	init_pair(1, COLOR_RED, COLOR_GREEN);
-	init_pair(2, COLOR_BLACK, COLOR_WHITE);
-	init_pair(4, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(8, COLOR_BLACK, COLOR_RED);
-	init_pair(16, COLOR_BLACK, COLOR_MAGENTA);
-	init_pair(32, COLOR_BLACK, COLOR_CYAN);
-	init_pair(64, COLOR_YELLOW, COLOR_CYAN);
-	init_pair(128, COLOR_RED, COLOR_CYAN);
-	init_pair(256, COLOR_MAGENTA, COLOR_RED);
-	init_pair(512, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(1024, COLOR_YELLOW, COLOR_GREEN);
-	init_pair(2048, COLOR_YELLOW, COLOR_WHITE);
-}
-
-void	print_line(int x, int i, int len)
-{
-	int p;
-
-	p = 0;
-	mvprintw(x + i, 0, ">");
-	while (p++ < len)
-		mvprintw(x + i, p, "_");
-	mvprintw(x + i, len, "<");
-}
-
 
 int check_map_bonus(t_env *e, int size[2])
 {
@@ -71,12 +41,11 @@ int check_map_bonus(t_env *e, int size[2])
 		if (!e->map[x])
 			return (0);
 		len = strlen(e->map[x]) * 4;
-		print_line(x, i, len);
 		i++;
 		y = 0;
 		while (y <= size[1])
 		{
-			if (e->map[x][y] == 'X')
+			/*if (e->map[x][y] == 'X')
 			{
 				attron(COLOR_PAIR(4));
 				mvprintw(x + i, y * 4, "| X ");
@@ -106,14 +75,13 @@ int check_map_bonus(t_env *e, int size[2])
 				mvprintw(x + i, y * 4, "| x ");
 				attroff(COLOR_PAIR(64));
 			}
-			mvprintw(x + i, y * 4, "|");
+			mvprintw(x + i, y * 4, "|");*/
 			//ft_putchar_fd(e->map[x][y], 2);
 			y++;
 		}
 		//ft_putchar_fd('\n', 2);
 		x++;
 	}
-	print_line(x, i, len);
 	e->map_size[0] = x;
 	e->map_size[1] = y;
 	//printf("x = %i, y = %i\n", x, y);
@@ -191,24 +159,24 @@ int	main()
 {
 	int i;
 	int size[2];
-	int j;
+	int j = 0;
+	GLFWwindow *win;
 	t_env *e;
 	//char *str;
 	char *line;
 
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
-	initscr();
-	start_color();
-	
-	COLOR_PAIRS = 2049;
-	ft_init_color();
-	//curs_set(0);
-	//getmaxyx(stdscr, toto.row, toto.col);
-	//toto.size_board = 100; // ?
-	//toto.x = 1; // cell size
-	j = 0;
-	while (get_next_line(0, &line) > 0)
+	if (!glfwInit())
+		return (-1);
+	win = glfwCreateWindow(640, 480, "Filler", NULL, NULL);
+	if (!win)
+	{
+		glfwTerminate();
+		return (-1);
+	}
+	glfwMakeContextCurrent(win);
+	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win)) 
 	{
 		i = 0;
 		while (line[i])
@@ -218,16 +186,14 @@ int	main()
 				get_size_bonus(line, size);
 				e->map = get_map(e, line);
 				check_map_bonus(e, size);
-				usleep(200000);
-				refresh();
 			}
-			//mvprintw(j, i, &line[i]);
 			i++;
 
 		}
 		j++;
-		//getch();
+		glfwSwapBuffers(win);
+		glfwPollEvents();
 	}
-	endwin();
+	glfwTerminate();
 	return (0);
 }
