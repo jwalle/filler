@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filler.h"
+#include "../inc/filler.h"
 #include <GLFW/glfw3.h>
-# include <GLUT/glut.h>
+//#include <GLUT/glut.h>
 
 
 #define RED "\x1B[31m"
@@ -85,33 +85,36 @@ int check_map_bonus(t_env *e, int size[2])
 		//ft_putchar_fd('\n', 2);
 		x++;
 	}
-	e->map_size[0] = x;
-	e->map_size[1] = y;
 	//printf("x = %i, y = %i\n", x, y);
 	return (0);
 }
 
-void	get_size_bonus(char *line, int size[2])
+int	*get_size_bonus(char *line, t_env *e)
 {
 	char	**plop;
+	int		*size;
 
+	size = (int *)malloc(sizeof(int) * 2);
 	plop = ft_strsplit(line, ' ');
+	// size = ft_atoi(plop[1]);
 	size[0] = ft_atoi(plop[1]);
 	size[1] = ft_atoi(plop[2]);
- 	free(plop);
+	free(plop);
+	return (size);
 }
 
-char **get_piece(char *line)
+char **get_piece(char *line, t_env *e)
 {
 	int		i;
 	int		y;
-	int		size[2];
+	int		*size;
 	char	**piece;
 
 	y = 0;
 	piece = (char **)malloc(100000);
 	//if (strstr(line, "Piece"))
-	get_size_bonus(line, size);
+	e->piece_size = get_size_bonus(line, e);
+	size = e->piece_size;
 	while (size[0]--)
 	{
 		get_next_line(0, &line);
@@ -131,12 +134,13 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
+	e->map_size = get_size_bonus(line, e);
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "Piece"))
 		{
-			e->piece = get_piece(line);
+			e->piece = get_piece(line, e);
 			return (map);
 		}
 		i = 0;
@@ -152,10 +156,8 @@ char **get_map(t_env *e, char *line)
 void	init_env(t_env *e)
 {
 	e->player = 0;
-	e->piece_size[0] = 0;
-	e->piece_size[1] = 0;
-	e->map_size[0] = 0;
-	e->map_size[1] = 0;
+	e->piece_size = malloc(sizeof(int) * 2);
+	e->map_size = malloc(sizeof(int) * 2);
 }
 
 /*
@@ -165,7 +167,7 @@ void	init_env(t_env *e)
 ** fourth value top left
 */
 
-void disp_grid(int size[2])
+void disp_grid(int *size)
 {
 	float x;
 	int col;
@@ -245,10 +247,10 @@ int	main()
 			{
 				if (strstr(line, "Plateau"))
 				{
-					get_size_bonus(line, size);
-					disp_grid(size);
+					get_size_bonus(line, e);
+					disp_grid(e->map_size);
 					e->map = get_map(e, line);
-					check_map_bonus(e, size);
+					//check_map_bonus(e, size);
 				}
 				i++;
 

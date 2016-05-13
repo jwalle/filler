@@ -24,10 +24,11 @@ void	debug(char *line) //A RETIRER
 void	init_env(t_env *e)
 {
 	e->player = 0;
-	e->piece_size[0] = 0;
-	e->piece_size[1] = 0;
-	e->map_size[0] = 0;
-	e->map_size[1] = 0;
+	//e->piece_size[0] = 0;
+	//e->piece_size[1] = 0;
+	e->piece_size = malloc(sizeof(int) * 2);
+	//e->map_size[0] = 0;
+	e->map_size = malloc(sizeof(int) * 2);
 }
 
 int		put_result(int piece_coord[2])

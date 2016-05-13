@@ -18,8 +18,8 @@ SRC 		=	filler.c \
 				check.c \
 				get_all.c \
 
-INC			=	-I./inc -I./libft/includes
-LINK		=	-Llibft -lft
+INC			=	-I./inc -I./libft
+LINK		=	-L./libft -lft
 SRCDIR		= ./srcs/
 ODIR		= ./objs/
 
@@ -36,10 +36,10 @@ all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 	#make -C ./libft
-	$(CC) -o $(NAME) $(LINK) $^ 
+	$(CC) -o $(NAME) $^ 
 
 $(ODIR)%.o : $(SRCDIR)%.c
-	$(CC) $(FLAGS) $(INC) -c $^ -o $@
+	$(CC) $(FLAGS) -c $^ $(INC) $(LINK) -o $@
 
 clean		:
 	#@make -C ./libft clean

@@ -76,9 +76,12 @@ int		main(void)
 		if (strstr(line, "Plateau"))
 		{
 			e->map = get_map(e, line);
-			check_map(e);
-			check_piece(e);
-			play(e);
+			if (e->map && e->piece)
+            {
+                //check_map(e);
+			    //check_piece(e);
+            }
+            play(e);
 		}
 	}
 	return (0);

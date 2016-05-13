@@ -82,14 +82,14 @@ int check_piece(t_env *e)
 int check_map(t_env *e)
 {
 	int x;
-	int y;
+	int y = 0;
 
 	x = 0;
-	while (e->map[x])
+	while (x < e->map_size[0])
 	{
 		y = 0;
 		//ft_putstr_fd(e->map[x], 2);
-		while (e->map[x][y])
+		while (y < e->map_size[1])
 		{
 			//ft_putchar(e->map[x][y]);
 			y++;
@@ -97,8 +97,8 @@ int check_map(t_env *e)
 		//ft_putchar_fd('\n', 2);
 		x++;
 	}
-	e->map_size[0] = x;
-	e->map_size[1] = y;
+	//e->map_size[0] = x;
+	//e->map_size[1] = y;
 	//printf("x = %i, y = %i\n", x, y);
 	return (0);
 }

@@ -19,6 +19,7 @@ OBJ			= $(SRC:.c=.o)
 
 INC			=	-I../inc -I../libft/includes -I./glfw/include
 LINK		=	-L../libft -lft -L./glfw/src/ -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework GLUT -framework Carbon
+LINK_LINUX	=	-L../libft -lft -L./glfw/src/ -lglfw3 -lm -ldl -lGL -lGLU -lX11 -lXxf86vm -lXinerama -lXcursor -lXrandr -lpthread -lXi
 SRCDIR		= ./srcs/
 ODIR		= ./objs/
 
@@ -35,8 +36,8 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:
-	#cmake -B./glfw -H./glfw
-	#make -C ./glfw
+	cmake -B./glfw -H./glfw
+	make -C ./glfw
 	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
 
 clean		:
@@ -46,6 +47,9 @@ fclean		:	clean
 	$(RM) $(NAME)
 
 re			:	fclean all
+
+linux		:	fclean
+				clang $(SRCS) $(LINK_LINUX) $(INC) -o $(NAME)	
 
 %.o			:	%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@

@@ -21,18 +21,21 @@ int	get_player(char *line)
 	return (0);
 }
 
-int	get_size(char *line)
+int	*get_size(char *line)
 {
 	char	**plop;
-	int		size;
+	int		*size;
 
+	size = (int *)malloc(sizeof(int) * 2);
 	plop = ft_strsplit(line, ' ');
-	size = ft_atoi(plop[1]);
+	// size = ft_atoi(plop[1]);
+	size[0] = ft_atoi(plop[1]);
+	size[1] = ft_atoi(plop[2]);
 	free(plop);
 	return (size);
 }
 
-char **get_piece(char *line)
+char **get_piece(char *line, t_env *e)
 {
 	int		i;
 	int		y;
@@ -42,7 +45,8 @@ char **get_piece(char *line)
 	y = 0;
 	piece = (char **)malloc(100000);
 	//if (strstr(line, "Piece"))
-	size = get_size(line);
+	e->piece_size = get_size(line);
+	size = e->piece_size[0];
 	while (size--)
 	{
 		get_next_line(0, &line);
@@ -62,12 +66,13 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
+	e->map_size = get_size(line);
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "Piece"))
 		{
-			e->piece = get_piece(line);
+			e->piece = get_piece(line, e);
 			return (map);
 		}
 		i = 0;
