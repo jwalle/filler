@@ -39,6 +39,23 @@ void disp_square_red(int x, int y)
 	glEnd();
 }
 
+void disp_square_white(int x, int y)
+{
+	float x1;
+	float y1;
+	float size = 0.03;
+
+	x1 = -0.94 + ((float)x * 0.05);
+	y1 = 0.94 - ((float)y * 0.05);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(x1,y1 - size,-1.0f);
+	glVertex3f(x1,y1,-1.0f);
+	glVertex3f(x1 + size,y1,-1.0f);
+	glVertex3f(x1 + size,y1 - size,-1.0f);
+	glEnd();
+}
+
 void disp_square_blue(int x, int y)
 {
 	float x1;
@@ -72,7 +89,7 @@ int check_map_bonus(t_env *e, int size[2])
 
 	x = 0;
 	i = 0;
-	while (x <= e->map_size[0])
+	while (x < e->map_size[0])
 	{
 		y = 0;
 		if (!e->map[x])
@@ -80,43 +97,19 @@ int check_map_bonus(t_env *e, int size[2])
 		len = strlen(e->map[x]) * 4;
 		i++;
 		y = 0;
-		while (y <= e->map_size[1])
+		while (y < e->map_size[1])
 		{
 			if (e->map[x][y] == 'X')
-			{
 				disp_square_red(x, y);
-			}
 			else if (e->map[x][y] == 'O')
-			{
 				disp_square_blue(x, y);
-			}/*
-			else if (e->map[x][y] == '.')
-			{
-				attron(COLOR_PAIR(32));
-				mvprintw(x + i, y * 4, "| . ");
-				attroff(COLOR_PAIR(32));
-			}
-			else if (e->map[x][y] == 'o')
-			{
-				attron(COLOR_PAIR(64));
-				mvprintw(x + i, y * 4, "| o ");
-				attroff(COLOR_PAIR(64));
-			}
-			else if (e->map[x][y] == 'x')
-			{
-				attron(COLOR_PAIR(64));
-				mvprintw(x + i, y * 4, "| x ");
-				attroff(COLOR_PAIR(64));
-			}
-			mvprintw(x + i, y * 4, "|");*/
-			//ft_putchar_fd(e->map[x][y], 2);
+			else if (e->map[x][y] == 'o' || e->map[x][y] == 'x')
+				disp_square_white(x, y);
 			y++;
 		}
-		//ft_putchar_fd('\n', 2);
 		x++;
 	}
-	//printf("x = %i, y = %i\n", x, y);
-	return (0);
+ 	return (0);
 }
 
 int	*get_size_bonus(char *line, t_env *e)
@@ -126,7 +119,6 @@ int	*get_size_bonus(char *line, t_env *e)
 
 	size = (int *)malloc(sizeof(int) * 2);
 	plop = ft_strsplit(line, ' ');
-	// size = ft_atoi(plop[1]);
 	size[0] = ft_atoi(plop[1]);
 	size[1] = ft_atoi(plop[2]);
 	free(plop);
@@ -205,8 +197,6 @@ void disp_line(float x1, float y1, float x2, float y2)
 		glEnd();
 }
 
-
-
 void disp_grid(int *size)
 {
 	float x;
@@ -220,25 +210,25 @@ void disp_grid(int *size)
 	line = size[1];
 	max_col = 0.95 - (line * 0.05);
 	max_line = -0.95 + (col * 0.05);
-	printf("size = (%i,%i)\n", size[0], size[1]);
-	printf("max col = %.3f, max line = %.3f\n", max_col, max_line);
 	while (col)
 	{
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glBegin(GL_LINE_LOOP);
-		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point haut (x + col, y ->)
-		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , max_col); // point bas (x + col, y ->)
-		glEnd();
+		disp_line(-0.95 + 0.05 * (float)(col % size[0]), 0.95, -0.95 + 0.05 * (float)(col % size[0]), max_col);
+		// glColor3f(1.0f, 1.0f, 1.0f);
+		// glBegin(GL_LINE_LOOP);
+		// glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point haut (x + col, y ->)
+		// glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , max_col); // point bas (x + col, y ->)
+		// glEnd();
 		col--;
 	}
 	disp_line(-0.95 + 0.05 * (float)(size[0]) ,0.95, -0.95 + 0.05 * (float)(size[0]),max_col);
 	while (line)
 	{
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glBegin(GL_LINE_LOOP);
-		glVertex2d(-0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point gauche (x + col, y ->)
-		glVertex2d(max_line , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
-		glEnd();
+		disp_line(-0.95, 0.95 - 0.05 * (float)(line % size[1]), max_line, 0.95 - 0.05 * (float)(line % size[1]));
+		// glColor3f(1.0f, 1.0f, 1.0f);
+		// glBegin(GL_LINE_LOOP);
+		// glVertex2d(-0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point gauche (x + col, y ->)
+		// glVertex2d(max_line , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
+		// glEnd();
 		line--;
 	}
 	disp_line(-0.95, 0.95 - 0.05 * (float)size[1] ,max_line,0.95 - 0.05 * (float)size[1]);
@@ -287,13 +277,13 @@ int	main()
 					check_map_bonus(e, size);
 				}
 				i++;
-
 			}
 			j++;
 			glfwSwapBuffers(win);
 			glfwPollEvents();
 		}
 	}
+
 	glfwTerminate();
 	return (0);
 }
