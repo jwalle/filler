@@ -1,1 +1,1 @@
-git add -A ; git commit -m "display" ; git push origin master
+git add -A ; git commit -m "display glfw" ; git push origin master

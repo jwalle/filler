@@ -22,6 +22,40 @@
 #define WIDTH 1200
 #define HEIGHT 1000
 
+void disp_square_red(int x, int y)
+{
+	float x1;
+	float y1;
+	float size = 0.03;
+
+	x1 = -0.94 + ((float)x * 0.05);
+	y1 = 0.94 - ((float)y * 0.05);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(x1,y1 - size,-1.0f);
+	glVertex3f(x1,y1,-1.0f);
+	glVertex3f(x1 + size,y1,-1.0f);
+	glVertex3f(x1 + size,y1 - size,-1.0f);
+	glEnd();
+}
+
+void disp_square_blue(int x, int y)
+{
+	float x1;
+	float y1;
+	float size = 0.03;
+
+	x1 = -0.94 + ((float)x * 0.05);
+	y1 = 0.94 - ((float)y * 0.05);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(x1,y1 - size,-1.0f);
+	glVertex3f(x1,y1,-1.0f);
+	glVertex3f(x1 + size,y1,-1.0f);
+	glVertex3f(x1 + size,y1 - size,-1.0f);
+	glEnd();
+}
+
 void ft_putchar_color(char c, char *str)
 {
 	ft_putstr(str);
@@ -38,7 +72,7 @@ int check_map_bonus(t_env *e, int size[2])
 
 	x = 0;
 	i = 0;
-	while (x <= size[0])
+	while (x <= e->map_size[0])
 	{
 		y = 0;
 		if (!e->map[x])
@@ -46,20 +80,16 @@ int check_map_bonus(t_env *e, int size[2])
 		len = strlen(e->map[x]) * 4;
 		i++;
 		y = 0;
-		while (y <= size[1])
+		while (y <= e->map_size[1])
 		{
-			/*if (e->map[x][y] == 'X')
+			if (e->map[x][y] == 'X')
 			{
-				attron(COLOR_PAIR(4));
-				mvprintw(x + i, y * 4, "| X ");
-				attroff(COLOR_PAIR(4));
+				disp_square_red(x, y);
 			}
 			else if (e->map[x][y] == 'O')
 			{
-				attron(COLOR_PAIR(8));
-				mvprintw(x + i, y * 4, "| O ");
-				attroff(COLOR_PAIR(32));
-			}
+				disp_square_blue(x, y);
+			}/*
 			else if (e->map[x][y] == '.')
 			{
 				attron(COLOR_PAIR(32));
@@ -166,47 +196,53 @@ void	init_env(t_env *e)
 ** third value top right
 ** fourth value top left
 */
+void disp_line(float x1, float y1, float x2, float y2)
+{
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_LINE_LOOP);
+		glVertex2d(x1 , y1); // point haut (x + col, y ->)
+		glVertex2d(x2 , y2); // point bas (x + col, y ->)
+		glEnd();
+}
+
+
 
 void disp_grid(int *size)
 {
 	float x;
 	int col;
 	int line;
+	float max_col;
+	float max_line;
 
 	x = 0;
 	col = size[0];
 	line = size[1];
+	max_col = 0.95 - (line * 0.05);
+	max_line = -0.95 + (col * 0.05);
 	printf("size = (%i,%i)\n", size[0], size[1]);
-	/*while (col)
-	{
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glBegin(GL_QUADS);
-		glVertex2d(-0.95f + x, -0.95f); // bottom left
-		glVertex2d(-0.945f + x, -0.95f); // bottom right
-		glVertex2d(-0.945f + x, 0.95f); // top right
-		glVertex2d(-0.95f + x, 0.95f); // top left
-		glEnd();
-		col--;
-		x += 0.05f;
-	}*/
+	printf("max col = %.3f, max line = %.3f\n", max_col, max_line);
 	while (col)
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_LINE_LOOP);
-		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point gauche (x + col, y ->)
-		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , -0.95); // point droit (x + col, y ->)
-		glEnd();				 
+		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point haut (x + col, y ->)
+		glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , max_col); // point bas (x + col, y ->)
+		glEnd();
 		col--;
 	}
+	disp_line(-0.95 + 0.05 * (float)(size[0]) ,0.95, -0.95 + 0.05 * (float)(size[0]),max_col);
 	while (line)
 	{
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBegin(GL_LINE_LOOP);
 		glVertex2d(-0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point gauche (x + col, y ->)
-		glVertex2d(0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
-		glEnd();				 
+		glVertex2d(max_line , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
+		glEnd();
 		line--;
 	}
+	disp_line(-0.95, 0.95 - 0.05 * (float)size[1] ,max_line,0.95 - 0.05 * (float)size[1]);
+	disp_square_red(2, 2);
 }
 
 int	main()
@@ -237,8 +273,6 @@ int	main()
 		while ((get_next_line(0, &line) > 0)) 
 		{		
 			glfwGetFramebufferSize(win, &width, &height);
-			printf("PLOP\n");
-
 			glViewport(0, 0, 1200, 1000);
 		
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -248,9 +282,9 @@ int	main()
 				if (strstr(line, "Plateau"))
 				{
 					get_size_bonus(line, e);
-					disp_grid(e->map_size);
 					e->map = get_map(e, line);
-					//check_map_bonus(e, size);
+					disp_grid(e->map_size);
+					check_map_bonus(e, size);
 				}
 				i++;
 

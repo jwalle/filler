@@ -34,8 +34,8 @@ int main(void)
 	int all;
 
 	srand(time(NULL));
-	max_i = rand() % 25 + 5;
-	max_j = rand() % 50 + 5;
+	max_i = rand() % 15 + 5;
+	max_j = rand() % 20 + 5;
 	all = max_i * max_j;
 
 	i = -1;	
