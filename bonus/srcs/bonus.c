@@ -199,13 +199,11 @@ void disp_line(float x1, float y1, float x2, float y2)
 
 void disp_grid(int *size)
 {
-	float x;
 	int col;
 	int line;
 	float max_col;
 	float max_line;
 
-	x = 0;
 	col = size[0];
 	line = size[1];
 	max_col = 0.95 - (line * 0.05);
@@ -213,26 +211,20 @@ void disp_grid(int *size)
 	while (col)
 	{
 		disp_line(-0.95 + 0.05 * (float)(col % size[0]), 0.95, -0.95 + 0.05 * (float)(col % size[0]), max_col);
-		// glColor3f(1.0f, 1.0f, 1.0f);
-		// glBegin(GL_LINE_LOOP);
-		// glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , 0.95); // point haut (x + col, y ->)
-		// glVertex2d(-0.95 + 0.05 * (float)(col % size[0]) , max_col); // point bas (x + col, y ->)
-		// glEnd();
 		col--;
 	}
-	disp_line(-0.95 + 0.05 * (float)(size[0]) ,0.95, -0.95 + 0.05 * (float)(size[0]),max_col);
+	disp_line(-0.95 + 0.05 * (float)size[0] ,0.95, -0.95 + 0.05 * (float)size[0], max_col);
 	while (line)
 	{
 		disp_line(-0.95, 0.95 - 0.05 * (float)(line % size[1]), max_line, 0.95 - 0.05 * (float)(line % size[1]));
-		// glColor3f(1.0f, 1.0f, 1.0f);
-		// glBegin(GL_LINE_LOOP);
-		// glVertex2d(-0.95 , 0.95 - 0.05 * (float)(line % size[1])); // point gauche (x + col, y ->)
-		// glVertex2d(max_line , 0.95 - 0.05 * (float)(line % size[1])); // point droit (x + col, y ->)
-		// glEnd();
 		line--;
 	}
 	disp_line(-0.95, 0.95 - 0.05 * (float)size[1] ,max_line,0.95 - 0.05 * (float)size[1]);
-	disp_square_red(2, 2);
+}
+
+void disp_piece(t_env *e)
+{
+
 }
 
 int	main()
