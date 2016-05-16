@@ -224,13 +224,14 @@ float	disp_grid(int *size, float start_x, float start_y)
 	while (col)
 	{
 		disp_line(start_x + 0.05 * (float)(col % size[0]), start_y, start_x + 0.05 * (float)(col % size[0]), max_col);
-		disp_number(start_x + 0.05 * (float)(col % size[0]), start_y + 0.02, col);
+		disp_number(start_x + 0.015 + 0.05 * (float)(col % size[0]), start_y + 0.01, col % size[0]);
 		col--;
 	}
 	disp_line(start_x + 0.05 * (float)size[0] ,start_y, start_x + 0.05 * (float)size[0], max_col);
 	while (line)
 	{
 		disp_line(start_x, start_y - 0.05 * (float)(line % size[1]), max_line, start_y - 0.05 * (float)(line % size[1]));
+		disp_number(-1.0 , start_y - 0.04 - 0.05 * (float)(line % size[1]), line % size[1]);
 		line--;
 	}
 	disp_line(start_x, start_y - 0.05 * (float)size[1] ,max_line, start_y - 0.05 * (float)size[1]);
