@@ -12,7 +12,7 @@
 
 #include "../inc/filler.h"
 #include <GLFW/glfw3.h>
-//#include <GLUT/glut.h>
+#include <GL/glut.h>
 
 
 #define RED "\x1B[31m"
@@ -129,15 +129,14 @@ char **get_piece(char *line, t_env *e)
 {
 	int		i;
 	int		y;
-	int		*size;
+	int		size;
 	char	**piece;
 
 	y = 0;
 	piece = (char **)malloc(100000);
-	//if (strstr(line, "Piece"))
 	e->piece_size = get_size_bonus(line, e);
-	size = e->piece_size;
-	while (size[0]--)
+	size = e->piece_size[0];
+	while (size--)
 	{
 		get_next_line(0, &line);
 		i = 0;
@@ -162,7 +161,7 @@ char **get_map(t_env *e, char *line)
 	{
 		if (strstr(line, "Piece"))
 		{
-			e->piece = get_piece(line, e);
+			e->piece = get_piece(line, e);			
 			return (map);
 		}
 		i = 0;
@@ -197,7 +196,20 @@ void disp_line(float x1, float y1, float x2, float y2)
 		glEnd();
 }
 
-void disp_grid(int *size)
+void disp_number(float x, float y, int n)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = ft_itoa(n);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2d(x, y);
+	while (str[i])
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i++]);
+}
+
+float	disp_grid(int *size, float start_x, float start_y)
 {
 	int col;
 	int line;
@@ -206,20 +218,23 @@ void disp_grid(int *size)
 
 	col = size[0];
 	line = size[1];
-	max_col = 0.95 - (line * 0.05);
-	max_line = -0.95 + (col * 0.05);
+	printf("size = (%i,%i) | start = (%f,%f)\n", size[0] ,size[1], start_x, start_y);
+	max_col = start_y - (line * 0.05);
+	max_line = start_x + (col * 0.05);
 	while (col)
 	{
-		disp_line(-0.95 + 0.05 * (float)(col % size[0]), 0.95, -0.95 + 0.05 * (float)(col % size[0]), max_col);
+		disp_line(start_x + 0.05 * (float)(col % size[0]), start_y, start_x + 0.05 * (float)(col % size[0]), max_col);
+		disp_number(start_x + 0.05 * (float)(col % size[0]), start_y + 0.02, col);
 		col--;
 	}
-	disp_line(-0.95 + 0.05 * (float)size[0] ,0.95, -0.95 + 0.05 * (float)size[0], max_col);
+	disp_line(start_x + 0.05 * (float)size[0] ,start_y, start_x + 0.05 * (float)size[0], max_col);
 	while (line)
 	{
-		disp_line(-0.95, 0.95 - 0.05 * (float)(line % size[1]), max_line, 0.95 - 0.05 * (float)(line % size[1]));
+		disp_line(start_x, start_y - 0.05 * (float)(line % size[1]), max_line, start_y - 0.05 * (float)(line % size[1]));
 		line--;
 	}
-	disp_line(-0.95, 0.95 - 0.05 * (float)size[1] ,max_line,0.95 - 0.05 * (float)size[1]);
+	disp_line(start_x, start_y - 0.05 * (float)size[1] ,max_line, start_y - 0.05 * (float)size[1]);
+	return(max_col);
 }
 
 void disp_piece(t_env *e)
@@ -227,7 +242,7 @@ void disp_piece(t_env *e)
 
 }
 
-int	main()
+int	main(int ac, char **av)
 {
 	int i;
 	int size[2];
@@ -238,9 +253,11 @@ int	main()
 	char *line;
 	int width = 1200;
 	int height = 1000;
+	float end_of_map;
 
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
+	glutInit(&ac, av);
 	if (!glfwInit())
 		return (-1);
 	win = glfwCreateWindow(1200, 1000, "Filler", NULL, NULL);
@@ -263,9 +280,11 @@ int	main()
 			{
 				if (strstr(line, "Plateau"))
 				{
-					get_size_bonus(line, e);
 					e->map = get_map(e, line);
-					disp_grid(e->map_size);
+
+					end_of_map = disp_grid(e->map_size, -0.95, 0.95);
+					if (e->piece_size[0] > 0)
+						disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
 					check_map_bonus(e, size);
 				}
 				i++;

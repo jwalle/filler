@@ -19,7 +19,7 @@ OBJ			= $(SRC:.c=.o)
 
 INC			=	-I../inc -I../libft/includes -I./glfw/include
 LINK		=	-L../libft -lft -L./glfw/src/ -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework GLUT -framework Carbon
-LINK_LINUX	=	-L../libft -lft -L./glfw/src/ -lglfw3 -lm -ldl -lGL -lGLU -lX11 -lXxf86vm -lXinerama -lXcursor -lXrandr -lpthread -lXi
+LINK_LINUX	=	-L../libft -lft -L./glfw/src/ -lglfw3 -lm -ldl -lGL -lglut -lX11 -lXxf86vm -lXinerama -lXcursor -lXrandr -lpthread -lXi
 SRCDIR		= ./srcs/
 ODIR		= ./objs/
 
