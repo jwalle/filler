@@ -196,6 +196,15 @@ void disp_line(float x1, float y1, float x2, float y2)
 		glEnd();
 }
 
+void controls(GLFWwindow *win, int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		if (key == GLFW_KEY_ESCAPE)
+			glfwSetWindowShouldClose(win, GL_TRUE);
+	}
+}
+
 void disp_number(float x, float y, int n)
 {
 	char	*str;
@@ -243,59 +252,75 @@ void disp_piece(t_env *e)
 
 }
 
-int	main(int ac, char **av)
+GLFWwindow *initWindow(const int resX, const int resY)
 {
-	int i;
-	int size[2];
-	int j = 0;
 	GLFWwindow *win;
-	t_env *e;
-	//char *str;
-	char *line;
-	int width = 1200;
-	int height = 1000;
-	float end_of_map;
 
-	e = (t_env *)malloc(sizeof(t_env));
-	init_env(e);
-	glutInit(&ac, av);
 	if (!glfwInit())
-		return (-1);
-	win = glfwCreateWindow(1200, 1000, "Filler", NULL, NULL);
+		return (NULL);
+	win = glfwCreateWindow(resX, resY, "Filler", NULL, NULL);
 	if (!win)
 	{
 		glfwTerminate();
-		return (-1);
+		return (NULL);
 	}
 	glfwMakeContextCurrent(win);
-	while (!glfwWindowShouldClose(win))
-	{
-		while ((get_next_line(0, &line) > 0)) 
-		{		
-			glfwGetFramebufferSize(win, &width, &height);
-			glViewport(0, 0, 1200, 1000);
-		
-			glClear(GL_COLOR_BUFFER_BIT);
-			i = 0;
-			while (line[i])
+	glfwSetKeyCallback(win, controls);
+	printf("Rendrerer : %s\n", glGetString(GL_RENDERER));
+	printf("OpenGL version : %s\n", glGetString(GL_VERSION));
+	return (win);
+}
+
+void display(GLFWwindow *win, t_env *e)
+{
+	char *line;
+	int i = 0;
+	int j = 0;
+	int size[2];
+	float end_of_map;
+
+	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
+	{	
+		glViewport(0, 0, 1000, 1000);
+		glClear(GL_COLOR_BUFFER_BIT);
+		i = 0;
+		while (line[i])
+		{
+			if (strstr(line, "Plateau"))
 			{
-				if (strstr(line, "Plateau"))
-				{
-					e->map = get_map(e, line);
-
-					end_of_map = disp_grid(e->map_size, -0.95, 0.95);
-					if (e->piece_size[0] > 0)
-						disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
-					check_map_bonus(e, size);
-				}
-				i++;
+				e->map = get_map(e, line);
+				end_of_map = disp_grid(e->map_size, -0.95, 0.95);
+				if (e->piece_size[0] > 0)
+					disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
+				check_map_bonus(e, size);
 			}
-			j++;
-			glfwSwapBuffers(win);
-			glfwPollEvents();
+			i++;
 		}
+		j++;
+		glfwSwapBuffers(win);
+		glfwPollEvents();
 	}
-
 	glfwTerminate();
+}
+
+
+int	main(int ac, char **av)
+{
+	GLFWwindow *win;
+	t_env *e;
+	int width = 1200;
+	int height = 1000;
+
+	e = (t_env *)malloc(sizeof(t_env));
+	init_env(e);
+	win = initWindow(1000, 1000);
+	glutInit(&ac, av);
+	if (win)
+		display(win, e);
+
+
+	//while ()
+			//glfwGetFramebufferSize(win, &width, &height);
+		
 	return (0);
 }
