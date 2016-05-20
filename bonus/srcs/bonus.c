@@ -149,22 +149,21 @@ char **get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
-	e->map_size = get_size_bonus(line, e);
-	get_next_line(0, &line);
+	i = 0;
 	while ((get_next_line(0, &line) > 0))
 	{
-		printf("%s\n", line);
-
+		i = 0;
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line, e);			
 			return (map);
 		}
-		i = 0;
 		//while (line[i] && !strchr(FORMAT, line[i]))
 		while (ft_isdigit(line[i]))
 			i++;
 		i++;
+		printf("LINE = %s\n", line);
+
 		map[y++] = ft_strdup(&line[i]);
 	}
 	return (map);
@@ -280,7 +279,6 @@ void display(GLFWwindow *win, t_env *e)
 	int j = 0;
 	float end_of_map;
 
-
 	glViewport(0, 0, 1000, 1000);
 	glClear(GL_COLOR_BUFFER_BIT);
 	//disp_msg();
@@ -292,6 +290,9 @@ void display(GLFWwindow *win, t_env *e)
 			if (strstr(line, "Plateau"))
 			{
 				glClear(GL_COLOR_BUFFER_BIT);
+				e->map_size = get_size_bonus(line, e);
+				get_next_line(0, &line);
+				get_next_line(0, &line);
 				e->map = get_map(e, line);
 				end_of_map = disp_grid(e->map_size, -0.95, 0.95);
 				if (e->piece_size[0] > 0)
