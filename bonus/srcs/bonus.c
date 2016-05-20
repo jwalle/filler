@@ -271,6 +271,11 @@ GLFWwindow *initWindow(const int resX, const int resY)
 	return (win);
 }
 
+void disp_msg(void)
+{
+	disp_square_blue(0, 0);
+}
+
 void display(GLFWwindow *win, t_env *e)
 {
 	char *line;
@@ -279,10 +284,13 @@ void display(GLFWwindow *win, t_env *e)
 	int size[2];
 	float end_of_map;
 
+
+	disp_msg();
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
 	{	
 		glViewport(0, 0, 1000, 1000);
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		i = 0;
 		while (line[i])
 		{
