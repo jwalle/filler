@@ -248,6 +248,8 @@ void disp_number(float x, float y, int n)
 	i = 0;
 	str = ft_itoa(n);
 	glColor3f(1.0f, 1.0f, 1.0f);
+	if (n > 9)
+		x -= 0.01;
 	glRasterPos2d(x, y);
 	while (str[i])
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i++]);
@@ -374,6 +376,5 @@ int	main(int ac, char **av)
 	glfwDestroyWindow(win);
 	//while ()
 			//glfwGetFramebufferSize(win, &width, &height);
-		
 	return (0);
 }
