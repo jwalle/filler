@@ -56,6 +56,24 @@ void disp_square_white(int x, int y)
 	glEnd();
 }
 
+void disp_square_green(int x, int y, float start_y)
+{
+	float x1;
+	float y1;
+	float size = 0.03;
+
+	x1 = -0.94 + ((float)x * 0.05);
+	y1 = start_y - ((float)y * 0.05);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(x1,y1 - size,-1.0f);
+	glVertex3f(x1,y1,-1.0f);
+	glVertex3f(x1 + size,y1,-1.0f);
+	glVertex3f(x1 + size,y1 - size,-1.0f);
+	glEnd();
+}
+
+
 void disp_square_blue(int x, int y)
 {
 	float x1;
@@ -99,6 +117,28 @@ int check_map_bonus(t_env *e)
 				disp_square_blue(y, x);
 			else if (e->map[x][y] == 'o' || e->map[x][y] == 'x')
 				disp_square_white(y, x);
+			y++;
+		}
+		x++;
+	}
+ 	return (0);
+}
+
+int fill_piece_bonus(t_env *e, float start_y)
+{
+	int x;
+	int y;
+
+	x = 0;
+	while (x < e->piece_size[0])
+	{
+		if (!e->piece[x])
+			return (0);
+		y = 0;
+		while (y < e->piece_size[1])
+		{
+			if (e->piece[x][y] == '*')
+				disp_square_green(y, x, start_y);
 			y++;
 		}
 		x++;
@@ -287,11 +327,13 @@ void display(GLFWwindow *win, t_env *e)
 			glClear(GL_COLOR_BUFFER_BIT);
 			e->map_size = get_size_bonus(line, e);
 			get_next_line(0, &line);
-			get_next_line(0, &line);
 			e->map = get_map(e, line);
 			end_of_map = disp_grid(e->map_size, -0.95, 0.95);
 			if (e->piece_size[0] > 0)
+			{
 				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
+				fill_piece_bonus(e, end_of_map - 0.11);
+			}
 			check_map_bonus(e);
 			glfwSwapBuffers(win);
 			usleep(108000);
