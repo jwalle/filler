@@ -275,8 +275,6 @@ void disp_msg(void)
 void display(GLFWwindow *win, t_env *e)
 {
 	char *line;
-	int i = 0;
-	int j = 0;
 	float end_of_map;
 
 	glViewport(0, 0, 1000, 1000);
@@ -284,26 +282,20 @@ void display(GLFWwindow *win, t_env *e)
 	//disp_msg();
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
 	{	
-		i = 0;
-		while (line[i])
+		if (strstr(line, "Plateau"))
 		{
-			if (strstr(line, "Plateau"))
-			{
-				glClear(GL_COLOR_BUFFER_BIT);
-				e->map_size = get_size_bonus(line, e);
-				get_next_line(0, &line);
-				get_next_line(0, &line);
-				e->map = get_map(e, line);
-				end_of_map = disp_grid(e->map_size, -0.95, 0.95);
-				if (e->piece_size[0] > 0)
-					disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
-				check_map_bonus(e);
-				glfwSwapBuffers(win);
-				usleep(108000);
-			}
-			i++;
+			glClear(GL_COLOR_BUFFER_BIT);
+			e->map_size = get_size_bonus(line, e);
+			get_next_line(0, &line);
+			get_next_line(0, &line);
+			e->map = get_map(e, line);
+			end_of_map = disp_grid(e->map_size, -0.95, 0.95);
+			if (e->piece_size[0] > 0)
+				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
+			check_map_bonus(e);
+			glfwSwapBuffers(win);
+			usleep(108000);
 		}
-		j++;
 		glfwPollEvents();
 	}
 	glfwTerminate();
