@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/19 17:17:10 by jwalle           ###   ########.fr        #
+#    Updated: 2016/05/20 10:40:01 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,10 @@ all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 	#make -C ./libft
-	$(CC) -o $(NAME) $^ 
+	$(CC) -o $(NAME) $^ $(LINK) 
 
 $(ODIR)%.o : $(SRCDIR)%.c
-	$(CC) $(FLAGS) -c $^ $(INC) $(LINK) -o $@
+	$(CC) $(FLAGS) -c $^ $(INC) -o $@
 
 clean		:
 	#@make -C ./libft clean

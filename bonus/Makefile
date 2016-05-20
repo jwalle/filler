@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/04/24 17:47:24 by jwalle           ###   ########.fr        #
+#    Updated: 2016/05/20 13:05:43 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:
-	cmake -B./glfw -H./glfw
-	make -C ./glfw
+	#cmake -B./glfw -H./glfw
+	#make -C ./glfw
 	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
 
 clean		:

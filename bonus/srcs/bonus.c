@@ -6,13 +6,13 @@
 /*   By: jwalle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/23 18:36:24 by jwalle            #+#    #+#             */
-/*   Updated: 2016/04/24 16:26:21 by jwalle           ###   ########.fr       */
+/*   Updated: 2016/05/20 12:59:21 by jwalle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/filler.h"
 #include <GLFW/glfw3.h>
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 
 #define RED "\x1B[31m"
@@ -80,31 +80,25 @@ void ft_putchar_color(char c, char *str)
 	ft_putstr(RESET);
 }
 
-int check_map_bonus(t_env *e, int size[2])
+int check_map_bonus(t_env *e)
 {
 	int x;
 	int y;
-	int i;
-	int len;
 
 	x = 0;
-	i = 0;
 	while (x < e->map_size[0])
 	{
-		y = 0;
 		if (!e->map[x])
 			return (0);
-		len = strlen(e->map[x]) * 4;
-		i++;
 		y = 0;
 		while (y < e->map_size[1])
 		{
 			if (e->map[x][y] == 'X')
-				disp_square_red(x, y);
+				disp_square_red(y, x);
 			else if (e->map[x][y] == 'O')
-				disp_square_blue(x, y);
+				disp_square_blue(y, x);
 			else if (e->map[x][y] == 'o' || e->map[x][y] == 'x')
-				disp_square_white(x, y);
+				disp_square_white(y, x);
 			y++;
 		}
 		x++;
@@ -141,7 +135,7 @@ char **get_piece(char *line, t_env *e)
 		get_next_line(0, &line);
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
-			i++;	
+			i++;
 		piece[y++] = ft_strdup(&line[i]);
 	}
 	return (piece);
@@ -159,6 +153,8 @@ char **get_map(t_env *e, char *line)
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
+		printf("%s\n", line);
+
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line, e);			
@@ -225,25 +221,25 @@ float	disp_grid(int *size, float start_x, float start_y)
 	float max_col;
 	float max_line;
 
-	col = size[0];
-	line = size[1];
-	printf("size = (%i,%i) | start = (%f,%f)\n", size[0] ,size[1], start_x, start_y);
+	col = size[1];
+	line = size[0];
+	// printf("size = (%i,%i) | start = (%f,%f)\n", size[0] ,size[1], start_x, start_y);
 	max_col = start_y - (line * 0.05);
 	max_line = start_x + (col * 0.05);
 	while (col)
 	{
-		disp_line(start_x + 0.05 * (float)(col % size[0]), start_y, start_x + 0.05 * (float)(col % size[0]), max_col);
-		disp_number(start_x + 0.015 + 0.05 * (float)(col % size[0]), start_y + 0.01, col % size[0]);
+		disp_line(start_x + 0.05 * (float)(col % size[1]), start_y, start_x + 0.05 * (float)(col % size[1]), max_col);
+		disp_number(start_x + 0.015 + 0.05 * (float)(col % size[1]), start_y + 0.01, col % size[1]);
 		col--;
 	}
-	disp_line(start_x + 0.05 * (float)size[0] ,start_y, start_x + 0.05 * (float)size[0], max_col);
+	disp_line(start_x + 0.05 * (float)size[1] ,start_y, start_x + 0.05 * (float)size[1], max_col);
 	while (line)
 	{
-		disp_line(start_x, start_y - 0.05 * (float)(line % size[1]), max_line, start_y - 0.05 * (float)(line % size[1]));
-		disp_number(-1.0 , start_y - 0.04 - 0.05 * (float)(line % size[1]), line % size[1]);
+		disp_line(start_x, start_y - 0.05 * (float)(line % size[0]), max_line, start_y - 0.05 * (float)(line % size[0]));
+		disp_number(-1.0 , start_y - 0.04 - 0.05 * (float)(line % size[0]), line % size[0]);
 		line--;
 	}
-	disp_line(start_x, start_y - 0.05 * (float)size[1] ,max_line, start_y - 0.05 * (float)size[1]);
+	disp_line(start_x, start_y - 0.05 * (float)size[0] ,max_line, start_y - 0.05 * (float)size[0]);
 	return(max_col);
 }
 
@@ -265,6 +261,7 @@ GLFWwindow *initWindow(const int resX, const int resY)
 		return (NULL);
 	}
 	glfwMakeContextCurrent(win);
+	glfwSwapInterval(1);
 	glfwSetKeyCallback(win, controls);
 	printf("Rendrerer : %s\n", glGetString(GL_RENDERER));
 	printf("OpenGL version : %s\n", glGetString(GL_VERSION));
@@ -281,31 +278,31 @@ void display(GLFWwindow *win, t_env *e)
 	char *line;
 	int i = 0;
 	int j = 0;
-	int size[2];
 	float end_of_map;
 
 
-	disp_msg();
+	glViewport(0, 0, 1000, 1000);
+	glClear(GL_COLOR_BUFFER_BIT);
+	//disp_msg();
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
 	{	
-		glViewport(0, 0, 1000, 1000);
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		i = 0;
 		while (line[i])
 		{
 			if (strstr(line, "Plateau"))
 			{
+				glClear(GL_COLOR_BUFFER_BIT);
 				e->map = get_map(e, line);
 				end_of_map = disp_grid(e->map_size, -0.95, 0.95);
 				if (e->piece_size[0] > 0)
 					disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
-				check_map_bonus(e, size);
+				check_map_bonus(e);
+				glfwSwapBuffers(win);
+				usleep(108000);
 			}
 			i++;
 		}
 		j++;
-		glfwSwapBuffers(win);
 		glfwPollEvents();
 	}
 	glfwTerminate();
@@ -322,11 +319,11 @@ int	main(int ac, char **av)
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
 	win = initWindow(1000, 1000);
-	glutInit(&ac, av);
+	//glutInit(&ac, av);
 	if (win)
 		display(win, e);
 
-
+	glfwDestroyWindow(win);
 	//while ()
 			//glfwGetFramebufferSize(win, &width, &height);
 		
