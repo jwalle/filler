@@ -250,7 +250,7 @@ void disp_number(float x, float y, int n)
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glRasterPos2d(x, y);
 	while (str[i])
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i++]);
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i++]);
 }
 
 void disp_string(float x, float y, char *str)
@@ -261,7 +261,7 @@ void disp_string(float x, float y, char *str)
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glRasterPos2d(x, y);	
 	while (str[i])
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i++]);
+		glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , str[i++]);
 }
 
 float	disp_grid(int *size, float start_x, float start_y)
@@ -339,10 +339,11 @@ void display(GLFWwindow *win, t_env *e)
 			e->map_size = get_size_bonus(line, e);
 			get_next_line(0, &line);
 			e->map = get_map(e, line);
-			end_of_map = disp_grid(e->map_size, -0.95, 0.95);
+			end_of_map = disp_grid(e->map_size, -0.95, 0.95) - 0.1;
 			if (e->piece_size[0] > 0)
 			{
-				disp_string(-0.95, end_of_map - 0.05, "Piece :");
+				disp_string(-1, end_of_map, "Piece :");
+				end_of_map -= 0.005;
 				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
 				fill_piece_bonus(e, end_of_map - 0.11);
 			}
