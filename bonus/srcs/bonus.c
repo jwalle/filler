@@ -253,6 +253,17 @@ void disp_number(float x, float y, int n)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i++]);
 }
 
+void disp_string(float x, float y, char *str)
+{
+	int i;
+
+	i = 0;
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2d(x, y);	
+	while (str[i])
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i++]);
+}
+
 float	disp_grid(int *size, float start_x, float start_y)
 {
 	int col;
@@ -331,6 +342,7 @@ void display(GLFWwindow *win, t_env *e)
 			end_of_map = disp_grid(e->map_size, -0.95, 0.95);
 			if (e->piece_size[0] > 0)
 			{
+				disp_string(-0.95, end_of_map - 0.05, "Piece :");
 				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
 				fill_piece_bonus(e, end_of_map - 0.11);
 			}
