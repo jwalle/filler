@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/05/20 13:05:43 by jwalle           ###   ########.fr        #
+#    Updated: 2016/05/21 15:49:25 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:
+	$(CC) $(FLAGS) srcs/map_gen.c -o map_gen
 	#cmake -B./glfw -H./glfw
 	#make -C ./glfw
 	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
@@ -45,11 +46,13 @@ clean		:
 
 fclean		:	clean
 	$(RM) $(NAME)
+	$(RM) map_gen
 
 re			:	fclean all
 
 linux		:	fclean
 				clang $(SRCS) $(LINK_LINUX) $(INC) -o $(NAME)	
+
 
 %.o			:	%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
