@@ -193,18 +193,16 @@ char **get_map(t_env *e, char *line)
 	while ((get_next_line(0, &line) > 0))
 	{
 		i = 0;
+
 		if (strstr(line, "Piece"))
 		{
-			e->piece = get_piece(line, e);			
+			e->piece = get_piece(line, e);
 			return (map);
 		}
-		//while (line[i] && !strchr(FORMAT, line[i]))
 		while (ft_isdigit(line[i]))
 			i++;
 		i++;
-		printf("LINE = %s\n", line);
-
-		map[y++] = ft_strdup(&line[i]);
+		map[y++] = ft_strdup(&line[i]);		
 	}
 	return (map);
 }
@@ -222,13 +220,14 @@ void	init_env(t_env *e)
 ** third value top right
 ** fourth value top left
 */
+
 void disp_line(float x1, float y1, float x2, float y2)
 {
-		glColor3f(1.0f, 1.0f, 1.0f);
-		glBegin(GL_LINE_LOOP);
-		glVertex2d(x1 , y1); // point haut (x + col, y ->)
-		glVertex2d(x2 , y2); // point bas (x + col, y ->)
-		glEnd();
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2d(x1 , y1);
+	glVertex2d(x2 , y2);
+	glEnd();
 }
 
 void controls(GLFWwindow *win, int key, int scancode, int action, int mods)
@@ -261,9 +260,24 @@ void disp_string(float x, float y, char *str)
 
 	i = 0;
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2d(x, y);	
+	glRasterPos2d(x, y);
 	while (str[i])
 		glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , str[i++]);
+}
+
+void get_play(float y, char **str, t_env *e)
+{
+	int player;
+	float x;
+
+	x = -1.0;
+	y = y - (float)(2 + e->piece_size[0]) * 0.05;
+	if (!strcmp(str[1], "(O):"))
+		disp_string(x, y, "Player 1 turn :");
+	else
+		disp_string(x, y, "Player 2 turn :");
+	disp_string(x + 0.25, y , str[2]);
+	disp_string(x + 0.3, y , str[3]);
 }
 
 float	disp_grid(int *size, float start_x, float start_y)
@@ -329,15 +343,19 @@ void display(GLFWwindow *win, t_env *e)
 {
 	char *line;
 	float end_of_map;
+	char **got;
 
 	glViewport(0, 0, 1000, 1000);
 	glClear(GL_COLOR_BUFFER_BIT);
+	end_of_map = 0;
 	//disp_msg();
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
-	{	
-		if (strstr(line, "Plateau"))
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		if (strstr(line, "<got"))
+			got = ft_strsplit(line, ' ');
+		else if (strstr(line, "Plateau"))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
 			e->map_size = get_size_bonus(line, e);
 			get_next_line(0, &line);
 			e->map = get_map(e, line);
@@ -349,7 +367,10 @@ void display(GLFWwindow *win, t_env *e)
 				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
 				fill_piece_bonus(e, end_of_map - 0.11);
 			}
-			check_map_bonus(e);
+
+			check_map_bonus(e);			
+			if (got != NULL)
+				get_play(end_of_map - 0.13, got, e);
 			glfwSwapBuffers(win);
 			usleep(108000);
 		}

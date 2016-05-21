@@ -19,12 +19,9 @@ void	debug(char *line) //A RETIRER
 	ft_putstr_fd("						<--DEBUG\n", 2);
 }
 
-
-
 void	init_env(t_env *e)
 {
 	e->player = 0;
-
 	e->piece_size = malloc(sizeof(int) * 2);
 	e->map_size = malloc(sizeof(int) * 2);
 }
