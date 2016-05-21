@@ -14,7 +14,6 @@
 #include <GLFW/glfw3.h>
 #include <GLUT/glut.h>
 
-
 #define RED "\x1B[31m"
 #define GREEN "\x1B[32m"
 #define RESET "\x1B[0m"
@@ -72,7 +71,6 @@ void disp_square_green(int x, int y, float start_y)
 	glVertex3f(x1 + size,y1 - size,-1.0f);
 	glEnd();
 }
-
 
 void disp_square_blue(int x, int y)
 {
@@ -289,7 +287,6 @@ float	disp_grid(int *size, float start_x, float start_y)
 
 	col = size[1];
 	line = size[0];
-	// printf("size = (%i,%i) | start = (%f,%f)\n", size[0] ,size[1], start_x, start_y);
 	max_col = start_y - (line * 0.05);
 	max_line = start_x + (col * 0.05);
 	while (col)
