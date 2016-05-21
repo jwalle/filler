@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/05/21 15:21:51 by jwalle           ###   ########.fr        #
+#    Updated: 2016/05/21 16:29:43 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,23 @@ clean		:
 	$(RM) $(OBJS)
 
 fclean		:	clean
-	@make -C ./libft fclean
+	make -C ./libft fclean
+	make -C ./bonus fclean
 	$(RM) $(NAME)
+
+bonus		: $(NAME)
+	make -C ./bonus
+
+test		:
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map
+
+test_bonus :
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map | ./bonus/bonus
+
 
 re			:	fclean all
 
 %.o			:	%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+.PHONY : bonus all test
