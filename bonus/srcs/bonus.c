@@ -361,7 +361,7 @@ void display(GLFWwindow *win, t_env *e)
 			{
 				disp_string(-1, end_of_map, "Piece :");
 				end_of_map -= 0.005;
-				disp_grid(e->piece_size, -0.95, end_of_map - 0.1);
+				disp_grid(e->piece_size, -0.95, end_of_map - 0.10);
 				fill_piece_bonus(e, end_of_map - 0.11);
 			}
 
