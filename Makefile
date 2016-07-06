@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/05/21 16:29:43 by jwalle           ###   ########.fr        #
+#    Updated: 2016/07/06 17:27:03 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,4 +65,4 @@ re			:	fclean all
 %.o			:	%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-.PHONY : bonus all test
+.PHONY : test_bonus bonus all test

@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/filler.h"
-#include <GLFW/glfw3.h>
-#include <GLUT/glut.h>
-
-#define RED "\x1B[31m"
-#define GREEN "\x1B[32m"
-#define RESET "\x1B[0m"
-
-#define WIDTH 1200
-#define HEIGHT 1000
+#include "filler_display.h"
 
 void disp_square_red(int x, int y)
 {
@@ -29,7 +20,8 @@ void disp_square_red(int x, int y)
 
 	x1 = -0.94 + ((float)x * 0.05);
 	y1 = 0.94 - ((float)y * 0.05);
-	glColor3f(1.0f, 0.0f, 0.0f);
+	glColor3f(RED_PLOP);
+	// glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1,y1 - size,-1.0f);
 	glVertex3f(x1,y1,-1.0f);

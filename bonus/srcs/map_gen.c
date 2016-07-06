@@ -10,55 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "filler_mapgen.h"
 
-//void set_rand()
-//{
-
-void ft_putchar(char c)
+static int	ft_putchar(char c)
 {
 	write(1, &c, 1);
+	return (1);
 }
 
-int main(void)
+static void	fill_map(int max_i, int max_j, int all)
 {
+	int	flag_x;
+	int	flag_o;
 	int i;
 	int j;
-	int max_i;
-	int max_j;
-	int flag_X = 0;
-	int flag_O = 0;
-	int all;
 
-	srand(time(NULL));
-	max_i = rand() % 15 + 5;
-	max_j = rand() % 20 + 5;
-	all = max_i * max_j;
-
-	i = -1;	
+	i = -1;
+	flag_x = 0;
+	flag_o = 0;
 	while (++i < max_i)
 	{
 		j = -1;
 		while (++j < max_j)
 		{
 			all--;
-			if (!flag_X && rand() % all == 0)
-			{
-				ft_putchar('X');
-				flag_X++;
-			}
-			else if (!flag_O && rand() % all == 0)
-			{
-				ft_putchar('O');
-				flag_O++;
-			}
+			if (!flag_x && rand() % all == 0)
+				flag_x = ft_putchar('X');
+			else if (!flag_o && rand() % all == 0)
+				flag_o = ft_putchar('O');
 			else
 				ft_putchar('.');
 		}
 		ft_putchar('\n');
 	}
+}
+
+int			main(void)
+{
+	int max_i;
+	int max_j;
+
+	srand(time(NULL));
+	max_i = rand() % 15 + 5;
+	max_j = rand() % 20 + 5;
+	fill_map(max_i, max_j, max_i * max_j);
 	return (0);
 }

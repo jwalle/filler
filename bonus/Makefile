@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/05/21 15:49:25 by jwalle           ###   ########.fr        #
+#    Updated: 2016/07/06 18:41:27 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC 		=	bonus.c \
 
 OBJ			= $(SRC:.c=.o)
 
-INC			=	-I../inc -I../libft/includes -I./glfw/include
+INC			=	-I../inc -I../libft/includes -I./glfw/include -I./includes
 LINK		=	-L../libft -lft -L./glfw/src/ -lglfw3 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -framework GLUT -framework Carbon
 LINK_LINUX	=	-L../libft -lft -L./glfw/src/ -lglfw3 -lm -ldl -lGL -lglut -lX11 -lXxf86vm -lXinerama -lXcursor -lXrandr -lpthread -lXi
 SRCDIR		= ./srcs/
@@ -36,7 +36,7 @@ OBJS		= 	$(addprefix $(ODIR), $(OBJ))
 all			:	$(NAME)
 
 $(NAME)		:
-	$(CC) $(FLAGS) srcs/map_gen.c -o map_gen
+	$(CC) $(FLAGS) srcs/map_gen.c -o map_gen -I./includes
 	#cmake -B./glfw -H./glfw
 	#make -C ./glfw
 	$(CC) $(SRCS) $(LINK) $(INC) -o $(NAME)	
