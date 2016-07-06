@@ -12,7 +12,7 @@
 
 #include "filler.h"
 
-void	debug(char *line) //A RETIRER
+void	debug(char *line)
 {
 	ft_putstr_fd("LINE = ", 2);
 	ft_putstr_fd(line, 2);
@@ -35,7 +35,7 @@ int		put_result(int piece_coord[2])
 	return (1);
 }
 
-void	out_of_play()
+void	out_of_play(void)
 {
 	ft_putstr("0 0\n");
 }

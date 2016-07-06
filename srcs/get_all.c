@@ -12,30 +12,29 @@
 
 #include "filler.h"
 
-int	get_player(char *line)
-{	
+int		get_player(char *line)
+{
 	if (strstr(line, "p1"))
-		return (1);	
+		return (1);
 	else if (strstr(line, "p2"))
 		return (2);
 	return (0);
 }
 
-int	*get_size(char *line)
+int		*get_size(char *line)
 {
 	char	**plop;
 	int		*size;
 
 	size = (int *)malloc(sizeof(int) * 2);
 	plop = ft_strsplit(line, ' ');
-	// size = ft_atoi(plop[1]);
 	size[0] = ft_atoi(plop[1]);
 	size[1] = ft_atoi(plop[2]);
 	free(plop);
 	return (size);
 }
 
-char **get_piece(char *line, t_env *e)
+char	**get_piece(char *line, t_env *e)
 {
 	int		i;
 	int		y;
@@ -44,7 +43,6 @@ char **get_piece(char *line, t_env *e)
 
 	y = 0;
 	piece = (char **)malloc(100000);
-	//if (strstr(line, "Piece"))
 	e->piece_size = get_size(line);
 	size = e->piece_size[0];
 	while (size--)
@@ -52,13 +50,13 @@ char **get_piece(char *line, t_env *e)
 		get_next_line(0, &line);
 		i = 0;
 		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
-			i++;	
+			i++;
 		piece[y++] = ft_strdup(&line[i]);
 	}
 	return (piece);
 }
 
-char **get_map(t_env *e, char *line)
+char	**get_map(t_env *e, char *line)
 {
 	int		i;
 	int		y;

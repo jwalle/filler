@@ -72,16 +72,11 @@ int		main(void)
 	while (get_next_line(0, &line) > 0)
 	{
 		if (strstr(line, "$$$") && !e->player)
-			e->player = get_player(line); // Penser a proteger
+			e->player = get_player(line);
 		if (strstr(line, "Plateau"))
 		{
 			e->map = get_map(e, line);
-			if (e->map && e->piece)
-            {
-                //check_map(e);
-			    //check_piece(e);
-            }
-            play(e);
+			play(e);
 		}
 	}
 	return (0);
