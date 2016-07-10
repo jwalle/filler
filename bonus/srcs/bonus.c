@@ -12,82 +12,6 @@
 
 #include "filler_display.h"
 
-void disp_square_red(int x, int y)
-{
-	float x1;
-	float y1;
-	float size = 0.03;
-
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
-	glColor3f(RED_PLOP);
-	// glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex3f(x1,y1 - size,-1.0f);
-	glVertex3f(x1,y1,-1.0f);
-	glVertex3f(x1 + size,y1,-1.0f);
-	glVertex3f(x1 + size,y1 - size,-1.0f);
-	glEnd();
-}
-
-void disp_square_white(int x, int y)
-{
-	float x1;
-	float y1;
-	float size = 0.03;
-
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glBegin(GL_QUADS);
-	glVertex3f(x1,y1 - size,-1.0f);
-	glVertex3f(x1,y1,-1.0f);
-	glVertex3f(x1 + size,y1,-1.0f);
-	glVertex3f(x1 + size,y1 - size,-1.0f);
-	glEnd();
-}
-
-void disp_square_green(int x, int y, float start_y)
-{
-	float x1;
-	float y1;
-	float size = 0.03;
-
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = start_y - ((float)y * 0.05);
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex3f(x1,y1 - size,-1.0f);
-	glVertex3f(x1,y1,-1.0f);
-	glVertex3f(x1 + size,y1,-1.0f);
-	glVertex3f(x1 + size,y1 - size,-1.0f);
-	glEnd();
-}
-
-void disp_square_blue(int x, int y)
-{
-	float x1;
-	float y1;
-	float size = 0.03;
-
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex3f(x1,y1 - size,-1.0f);
-	glVertex3f(x1,y1,-1.0f);
-	glVertex3f(x1 + size,y1,-1.0f);
-	glVertex3f(x1 + size,y1 - size,-1.0f);
-	glEnd();
-}
-
-void ft_putchar_color(char c, char *str)
-{
-	ft_putstr(str);
-	ft_putchar(c);
-	ft_putstr(RESET);
-}
-
 int check_map_bonus(t_env *e)
 {
 	int x;
@@ -136,67 +60,6 @@ int fill_piece_bonus(t_env *e, float start_y)
  	return (0);
 }
 
-int	*get_size_bonus(char *line, t_env *e)
-{
-	char	**plop;
-	int		*size;
-
-	size = (int *)malloc(sizeof(int) * 2);
-	plop = ft_strsplit(line, ' ');
-	size[0] = ft_atoi(plop[1]);
-	size[1] = ft_atoi(plop[2]);
-	free(plop);
-	return (size);
-}
-
-char **get_piece(char *line, t_env *e)
-{
-	int		i;
-	int		y;
-	int		size;
-	char	**piece;
-
-	y = 0;
-	piece = (char **)malloc(100000);
-	e->piece_size = get_size_bonus(line, e);
-	size = e->piece_size[0];
-	while (size--)
-	{
-		get_next_line(0, &line);
-		i = 0;
-		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
-			i++;
-		piece[y++] = ft_strdup(&line[i]);
-	}
-	return (piece);
-}
-
-char **get_map(t_env *e, char *line)
-{
-	int		i;
-	int		y;
-	char	**map;
-
-	y = 0;
-	map = (char **)malloc(100000);
-	i = 0;
-	while ((get_next_line(0, &line) > 0))
-	{
-		i = 0;
-
-		if (strstr(line, "Piece"))
-		{
-			e->piece = get_piece(line, e);
-			return (map);
-		}
-		while (ft_isdigit(line[i]))
-			i++;
-		i++;
-		map[y++] = ft_strdup(&line[i]);		
-	}
-	return (map);
-}
-
 void	init_env(t_env *e)
 {
 	e->player = 0;
@@ -211,15 +74,6 @@ void	init_env(t_env *e)
 ** fourth value top left
 */
 
-void disp_line(float x1, float y1, float x2, float y2)
-{
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glBegin(GL_LINE_LOOP);
-	glVertex2d(x1 , y1);
-	glVertex2d(x2 , y2);
-	glEnd();
-}
-
 void controls(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_PRESS)
@@ -227,21 +81,6 @@ void controls(GLFWwindow *win, int key, int scancode, int action, int mods)
 		if (key == GLFW_KEY_ESCAPE)
 			glfwSetWindowShouldClose(win, GL_TRUE);
 	}
-}
-
-void disp_number(float x, float y, int n)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = ft_itoa(n);
-	glColor3f(1.0f, 1.0f, 1.0f);
-	if (n > 9)
-		x -= 0.01;
-	glRasterPos2d(x, y);
-	while (str[i])
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i++]);
 }
 
 void disp_string(float x, float y, char *str)
@@ -253,54 +92,6 @@ void disp_string(float x, float y, char *str)
 	glRasterPos2d(x, y);
 	while (str[i])
 		glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , str[i++]);
-}
-
-void get_play(float y, char **str, t_env *e)
-{
-	int player;
-	float x;
-
-	x = -1.0;
-	y = y - (float)(2 + e->piece_size[0]) * 0.05;
-	if (!strcmp(str[1], "(O):"))
-		disp_string(x, y, "Player 1 turn :");
-	else
-		disp_string(x, y, "Player 2 turn :");
-	disp_string(x + 0.25, y , str[2]);
-	disp_string(x + 0.3, y , str[3]);
-}
-
-float	disp_grid(int *size, float start_x, float start_y)
-{
-	int col;
-	int line;
-	float max_col;
-	float max_line;
-
-	col = size[1];
-	line = size[0];
-	max_col = start_y - (line * 0.05);
-	max_line = start_x + (col * 0.05);
-	while (col)
-	{
-		disp_line(start_x + 0.05 * (float)(col % size[1]), start_y, start_x + 0.05 * (float)(col % size[1]), max_col);
-		disp_number(start_x + 0.015 + 0.05 * (float)(col % size[1]), start_y + 0.01, col % size[1]);
-		col--;
-	}
-	disp_line(start_x + 0.05 * (float)size[1] ,start_y, start_x + 0.05 * (float)size[1], max_col);
-	while (line)
-	{
-		disp_line(start_x, start_y - 0.05 * (float)(line % size[0]), max_line, start_y - 0.05 * (float)(line % size[0]));
-		disp_number(-1.0 , start_y - 0.04 - 0.05 * (float)(line % size[0]), line % size[0]);
-		line--;
-	}
-	disp_line(start_x, start_y - 0.05 * (float)size[0] ,max_line, start_y - 0.05 * (float)size[0]);
-	return(max_col);
-}
-
-void disp_piece(t_env *e)
-{
-
 }
 
 GLFWwindow *initWindow(const int resX, const int resY)
@@ -323,11 +114,6 @@ GLFWwindow *initWindow(const int resX, const int resY)
 	return (win);
 }
 
-void disp_msg(void)
-{
-	disp_square_blue(0, 0);
-}
-
 void display(GLFWwindow *win, t_env *e)
 {
 	char *line;
@@ -337,7 +123,6 @@ void display(GLFWwindow *win, t_env *e)
 	glViewport(0, 0, 1000, 1000);
 	glClear(GL_COLOR_BUFFER_BIT);
 	end_of_map = 0;
-	//disp_msg();
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -379,12 +164,8 @@ int	main(int ac, char **av)
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
 	win = initWindow(1000, 1000);
-	//glutInit(&ac, av);
 	if (win)
 		display(win, e);
-
 	glfwDestroyWindow(win);
-	//while ()
-			//glfwGetFramebufferSize(win, &width, &height);
 	return (0);
 }

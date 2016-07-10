@@ -14,6 +14,8 @@ NAME 		= bonus
 
 SRC 		=	bonus.c \
 				get_next_line.c \
+				get_bonus.c \
+				square.c \
 
 OBJ			= $(SRC:.c=.o)
 

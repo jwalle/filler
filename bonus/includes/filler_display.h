@@ -38,4 +38,13 @@ typedef struct	s_env
 	int			*map_size;
 }				t_env;
 
+void disp_square_red(int x, int y);
+void disp_square_white(int x, int y);
+void disp_square_green(int x, int y, float start_y);
+void disp_square_blue(int x, int y);
+void get_play(float y, char **str, t_env *e);
+char **get_map(t_env *e, char *line);
+char **get_piece(char *line, t_env *e);
+int	*get_size_bonus(char *line, t_env *e);
+
 #endif
