@@ -1,4 +1,4 @@
-seed = 758
-./filler won
+seed = 5678
+./ex_filler/grati.filler won
 Score:
-13AGAINST12
+14AGAINST14

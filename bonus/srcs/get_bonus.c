@@ -12,7 +12,7 @@
 
 #include "filler_display.h"
 
-int	*get_size_bonus(char *line, t_env *e)
+int		*get_size_bonus(char *line, t_env *e)
 {
 	char	**plop;
 	int		*size;
@@ -25,7 +25,7 @@ int	*get_size_bonus(char *line, t_env *e)
 	return (size);
 }
 
-char **get_piece(char *line, t_env *e)
+char	**get_piece(char *line, t_env *e)
 {
 	int		i;
 	int		y;
@@ -47,7 +47,7 @@ char **get_piece(char *line, t_env *e)
 	return (piece);
 }
 
-char **get_map(t_env *e, char *line)
+char	**get_map(t_env *e, char *line)
 {
 	int		i;
 	int		y;
@@ -74,7 +74,7 @@ char **get_map(t_env *e, char *line)
 }
 
 
-void get_play(float y, char **str, t_env *e)
+void	get_play(float y, char **str, t_env *e)
 {
 	int player;
 	float x;

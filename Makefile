@@ -6,7 +6,7 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/07/06 17:27:03 by jwalle           ###   ########.fr        #
+#    Updated: 2016/07/10 18:50:05 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ fclean		:	clean
 	$(RM) $(NAME)
 
 bonus		: $(NAME)
-	make -C ./bonus
+	make -C bonus
 
 test		:
 	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map

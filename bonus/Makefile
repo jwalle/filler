@@ -16,6 +16,9 @@ SRC 		=	bonus.c \
 				get_next_line.c \
 				get_bonus.c \
 				square.c \
+				display.c \
+				disp_grid.c \
+				init.c \
 
 OBJ			= $(SRC:.c=.o)
 

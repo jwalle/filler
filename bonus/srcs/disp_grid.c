@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "display_bonus.h"
+#include "filler_display.h"
 
 
 void disp_line(float x1, float y1, float x2, float y2)
