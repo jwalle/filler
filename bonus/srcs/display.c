@@ -12,23 +12,23 @@
 
 #include "filler_display.h"
 
-float disp_piece(t_env *e, int eom)
+float	disp_piece(t_env *e, int eom)
 {
 	disp_string(-1, eom, "Piece :");
 	eom -= 0.005;
 	disp_grid(e->piece_size, -0.95, eom - 0.10);
-	fill_piece_bonus(e, eom - 0.11);	
+	fill_piece_bonus(e, eom - 0.11);
 	return (eom);
 }
 
-void display(GLFWwindow *win, t_env *e)
+void	display(GLFWwindow *win, t_env *e)
 {
-	char *line;
-	float eom;
-	char **got;
+	char	*line;
+	float	eom;
+	char	**got;
 
 	while ((get_next_line(0, &line) > 0) && !glfwWindowShouldClose(win))
-	{	
+	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		if (strstr(line, "<got"))
 			got = ft_strsplit(line, ' ');

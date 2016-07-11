@@ -54,12 +54,11 @@ char	**get_map(t_env *e, char *line)
 	char	**map;
 
 	y = 0;
-	map = (char **)malloc(100000);
 	i = 0;
+	map = (char **)malloc(100000);
 	while ((get_next_line(0, &line) > 0))
 	{
 		i = 0;
-
 		if (strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line, e);
@@ -68,16 +67,15 @@ char	**get_map(t_env *e, char *line)
 		while (ft_isdigit(line[i]))
 			i++;
 		i++;
-		map[y++] = ft_strdup(&line[i]);		
+		map[y++] = ft_strdup(&line[i]);
 	}
 	return (map);
 }
 
-
 void	get_play(float y, char **str, t_env *e)
 {
-	int player;
-	float x;
+	int		player;
+	float	x;
 
 	x = -1.0;
 	y = y - (float)(2 + e->piece_size[0]) * 0.05;
@@ -85,6 +83,6 @@ void	get_play(float y, char **str, t_env *e)
 		disp_string(x, y, "Player 1 turn :");
 	else
 		disp_string(x, y, "Player 2 turn :");
-	disp_string(x + 0.25, y , str[2]);
-	disp_string(x + 0.3, y , str[3]);
+	disp_string(x + 0.25, y, str[2]);
+	disp_string(x + 0.3, y, str[3]);
 }

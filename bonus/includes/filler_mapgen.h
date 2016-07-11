@@ -13,8 +13,8 @@
 #ifndef FILLER_MAPGEN_H
 # define FILLER_MAPGEN_H
 
-#include <time.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include <time.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-# endif
+#endif
