@@ -28,6 +28,8 @@
 
 typedef struct	s_env
 {
+	int			p1_count;
+	int			p2_count;
 	int			player;
 	char		**map;
 	char		**piece;

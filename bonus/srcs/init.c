@@ -15,6 +15,8 @@
 void		init_env(t_env *e)
 {
 	e->player = 0;
+	e->p1_count = 0;
+	e->p2_count = 0;
 	e->piece_size = malloc(sizeof(int) * 2);
 	e->map_size = malloc(sizeof(int) * 2);
 }

@@ -78,6 +78,8 @@ void	disp_string(float x, float y, char *str)
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i++]);
 }
 
+#include <stdio.h> //REMOVE
+
 int		main(int ac, char **av)
 {
 	GLFWwindow	*win;

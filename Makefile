@@ -6,11 +6,11 @@
 #    By: jwalle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/07 17:35:39 by jwalle            #+#    #+#              #
-#    Updated: 2016/07/10 18:50:05 by jwalle           ###   ########.fr        #
+#    Updated: 2016/07/11 18:11:42 by jwalle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= filler
+NAME 		= jwalle.filler
 
 SRC 		=	filler.c \
 				get_next_line.c \
@@ -54,10 +54,10 @@ bonus		: $(NAME)
 	make -C bonus
 
 test		:
-	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map
 
 test_bonus :
-	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map | ./bonus/bonus
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map | ./bonus/bonus
 
 
 re			:	fclean all

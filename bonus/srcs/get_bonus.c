@@ -80,9 +80,19 @@ void	get_play(float y, char **str, t_env *e)
 	x = -1.0;
 	y = y - (float)(2 + e->piece_size[0]) * 0.05;
 	if (!strcmp(str[1], "(O):"))
+	{
+		e->p1_count++;	
 		disp_string(x, y, "Player 1 turn :");
-	else
+	}
+	else if (!strcmp(str[1], "(X):"))
+	{
+		e->p2_count++;	
 		disp_string(x, y, "Player 2 turn :");
+	}
 	disp_string(x + 0.25, y, str[2]);
 	disp_string(x + 0.3, y, str[3]);
+	disp_string(x, y - 0.05 , "Player 1 score :");
+	disp_string(x + 0.27, y - 0.05 , ft_itoa(e->p1_count));
+	disp_string(x, y - 0.1 , "Player 2 score :");
+	disp_string(x + 0.27, y - 0.1 , ft_itoa(e->p2_count));
 }

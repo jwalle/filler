@@ -44,7 +44,7 @@ void	display(GLFWwindow *win, t_env *e)
 			if (got != NULL)
 				get_play(eom - 0.13, got, e);
 			glfwSwapBuffers(win);
-			usleep(108000);
+			// usleep(108000);
 		}
 		glfwPollEvents();
 	}
