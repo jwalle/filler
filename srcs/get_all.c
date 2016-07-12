@@ -28,6 +28,8 @@ int		*get_size(char *line)
 
 	size = (int *)malloc(sizeof(int) * 2);
 	plop = ft_strsplit(line, ' ');
+	if (!plop[1] || !plop[2])
+		return (NULL);
 	size[0] = ft_atoi(plop[1]);
 	size[1] = ft_atoi(plop[2]);
 	free(plop);
@@ -43,7 +45,8 @@ char	**get_piece(char *line, t_env *e)
 
 	y = 0;
 	piece = (char **)malloc(100000);
-	e->piece_size = get_size(line);
+	if (!(e->piece_size = get_size(line)))
+		return (NULL);
 	size = e->piece_size[0];
 	while (size--)
 	{
@@ -64,20 +67,27 @@ char	**get_map(t_env *e, char *line)
 
 	y = 0;
 	map = (char **)malloc(100000);
-	e->map_size = get_size(line);
+	if (!(e->map_size = get_size(line)))
+		return (NULL);
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
 		if (strstr(line, "Piece"))
 		{
-			e->piece = get_piece(line, e);
-			return (map);
+			if ((e->piece = get_piece(line, e)))
+				return (map);
+			else
+				return (NULL);
 		}
 		i = 0;
 		while (line[i] && !strchr(FORMAT, line[i]))
 			i++;
 		map[y++] = ft_strdup(&line[i]);
+		if ((int)ft_strlen(&line[i]) < e->map_size[1])
+			return (NULL);
 	}
+	if (y < e->map_size[1])
+		return (NULL);
 	return (map);
 }
 

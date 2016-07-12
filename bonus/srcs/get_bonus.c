@@ -77,7 +77,7 @@ void	get_play(float y, char **str, t_env *e)
 	int		player;
 	float	x;
 
-	x = -1.0;
+	x = -0.0;
 	y = y - (float)(2 + e->piece_size[0]) * 0.05;
 	if (!strcmp(str[1], "(O):"))
 	{

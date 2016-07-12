@@ -41,5 +41,6 @@ int				check_size(t_env *e, int piece_coord[2]);
 int				check_fill(int piece_coord[2]);
 int				check_piece(t_env *e);
 int				check_map(t_env *e);
+void			destroy_env(t_env *e);
 
 #endif

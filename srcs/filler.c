@@ -25,6 +25,8 @@ int		test_piece(t_env *e, int map_coord[2])
 		y = -1;
 		while (++y < e->piece_size[1])
 		{
+			if (!e->piece[x][y])
+				exit (-1);
 			if (e->piece[x][y] == '*')
 			{
 				star_coord[0] = x;
@@ -76,8 +78,10 @@ int		main(void)
 		if (strstr(line, "Plateau"))
 		{
 			e->map = get_map(e, line);
-			play(e);
+			if (e->map)
+				play(e);
 		}
 	}
+	destroy_env(e);
 	return (0);
 }

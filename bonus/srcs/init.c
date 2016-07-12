@@ -21,6 +21,15 @@ void		init_env(t_env *e)
 	e->map_size = malloc(sizeof(int) * 2);
 }
 
+void		destroy_env(t_env *e)
+{
+	e->player = 0;
+	e->p1_count = 0;
+	e->p2_count = 0;
+	free(e->piece_size);
+	free(e->map_size);
+}
+
 void		controls(GLFWwindow *win, int key, int scancode,
 				int action, int mods)
 {

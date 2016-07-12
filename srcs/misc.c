@@ -26,6 +26,13 @@ void	init_env(t_env *e)
 	e->map_size = malloc(sizeof(int) * 2);
 }
 
+void	destroy_env(t_env *e)
+{
+	e->player = 0;
+	free(e->piece_size);
+	free(e->map_size);
+}
+
 int		put_result(int piece_coord[2])
 {
 	ft_putnbr(piece_coord[0]);
