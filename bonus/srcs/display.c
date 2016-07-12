@@ -12,7 +12,7 @@
 
 #include "filler_display.h"
 
-float	disp_piece(t_env *e, int eom)
+float	disp_piece(t_env *e, float eom)
 {
 	disp_string(-1, eom, "Piece :");
 	eom -= 0.005;
@@ -37,12 +37,12 @@ void	display(GLFWwindow *win, t_env *e)
 			e->map_size = get_size_bonus(line, e);
 			get_next_line(0, &line);
 			e->map = get_map(e, line);
-			eom = disp_grid(e->map_size, -0.95, 0.95) - 0.1;
+			eom = disp_grid(e->map_size, -0.95, 0.95);
 			if (e->piece_size[0] > 0)
-				/*eom = */disp_piece(e, eom);
+				disp_piece(e, eom);
 			check_map_bonus(e);
 			if (got != NULL)
-				get_play(eom - 0.13, got, e);
+				get_play(eom, got, e);
 			glfwSwapBuffers(win);
 			usleep(108000);
 		}

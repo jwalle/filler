@@ -21,7 +21,7 @@ void	disp_line(float x1, float y1, float x2, float y2)
 	glEnd();
 }
 
-void	disp_number(float x, float y, int n)
+void	disp_number(float x, float y, int n, int line)
 {
 	char	*str;
 	int		i;
@@ -29,11 +29,12 @@ void	disp_number(float x, float y, int n)
 	i = 0;
 	str = ft_itoa(n);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	if (n > 9)
+	if (n > 9 && !line)
 		x -= 0.01;
 	glRasterPos2d(x, y);
 	while (str[i])
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i++]);
+	free(str);
 }
 
 void	disp_coll(float start_x, float start_y, int *size)
@@ -50,7 +51,7 @@ void	disp_coll(float start_x, float start_y, int *size)
 		disp_line(start_x + 0.05 * (float)(col % size[1]), start_y,
 			start_x + 0.05 * (float)(col % size[1]), max_col);
 		disp_number(start_x + 0.015 + 0.05 * (float)(col % size[1]),
-			start_y + 0.01, col % size[1]);
+			start_y + 0.01, col % size[1], 0);
 		col--;
 	}
 }
@@ -74,10 +75,10 @@ float	disp_grid(int *size, float start_x, float start_y)
 		disp_line(start_x, start_y - 0.05 * (float)(line % size[0]),
 			max_line, start_y - 0.05 * (float)(line % size[0]));
 		disp_number(-1.0, start_y - 0.04 - 0.05 * (float)(line % size[0]),
-			line % size[0]);
+			line % size[0], 1);
 		line--;
 	}
 	disp_line(start_x, start_y - 0.05 * (float)size[0],
 		max_line, start_y - 0.05 * (float)size[0]);
-	return (max_col);
+	return (max_col - 0.1);
 }

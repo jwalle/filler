@@ -78,7 +78,6 @@ void	get_play(float y, char **str, t_env *e)
 	float	x;
 
 	x = -0.0;
-	y = y - (float)(2 + e->piece_size[0]) * 0.05;
 	if (!strcmp(str[1], "(O):"))
 	{
 		e->p1_count++;	
