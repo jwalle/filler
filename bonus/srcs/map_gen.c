@@ -51,8 +51,8 @@ int			main(void)
 	int max_j;
 
 	srand(time(NULL));
-	max_i = rand() % 15 + 5;
-	max_j = rand() % 20 + 5;
+	max_i = rand() % MAX_LEN + 5;
+	max_j = rand() % MAX_LINE + 5;
 	fill_map(max_i, max_j, max_i * max_j);
 	return (0);
 }

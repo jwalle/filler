@@ -23,15 +23,17 @@ cmp_result()
 
 get_result()
 {
-	LINE=$(make test | grep "fin" | cut -d ' ' -f4)
+	LINE=$(./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/carli.filler -v -f maps/rand.map | grep "fin" | cut -d ' ' -f4)
 	echo $LINE
 	P1=$(echo $LINE | cut -d ' ' -f1)
 	P2=$(echo $LINE | cut -d ' ' -f2)
-	cmp_result $P1 $P2
+	if [ -n "$LINE" ]
+	then
+		cmp_result $P1 $P2
+	fi
 }
 
-
-while [ $cmpt -le 5 ]
+while [ $cmpt -le 20 ]
 do
 	get_result
 	((cmpt++))

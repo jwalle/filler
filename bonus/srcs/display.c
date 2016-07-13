@@ -62,7 +62,6 @@ void	display(GLFWwindow *win, t_env *e)
 					get_play(eom, got, e);
 				glfwSwapBuffers(win);
 			}
-			// free(line);
 		}
 		else
 		{

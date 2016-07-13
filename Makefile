@@ -54,10 +54,10 @@ bonus		: $(NAME)
 	make -C bonus
 
 test		:
-	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/abanlin.filler -v -f maps/rand.map
 
 test_bonus :
-	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/grati.filler -v -f maps/rand.map | ./bonus/bonus
+	./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/carli.filler -v -f maps/rand.map | ./bonus/bonus
 
 
 re			:	fclean all
