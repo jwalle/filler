@@ -14,9 +14,9 @@
 
 int		get_player(char *line)
 {
-	if (strstr(line, "p1"))
+	if (ft_strstr(line, "p1"))
 		return (1);
-	else if (strstr(line, "p2"))
+	else if (ft_strstr(line, "p2"))
 		return (2);
 	return (0);
 }
@@ -50,9 +50,9 @@ char	**get_piece(char *line, t_env *e)
 	size = e->piece_size[0];
 	while (size--)
 	{
-		get_next_line(0, &line);
 		i = 0;
-		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+		get_next_line(0, &line);
+		while (line[i] && line[i] != '\n' && !ft_strchr(FORMAT, line[i]))
 			i++;
 		piece[y++] = ft_strdup(&line[i]);
 	}
@@ -72,7 +72,7 @@ char	**get_map(t_env *e, char *line)
 	get_next_line(0, &line);
 	while ((get_next_line(0, &line) > 0))
 	{
-		if (strstr(line, "Piece"))
+		if (ft_strstr(line, "Piece"))
 		{
 			if ((e->piece = get_piece(line, e)))
 				return (map);
@@ -80,7 +80,7 @@ char	**get_map(t_env *e, char *line)
 				return (NULL);
 		}
 		i = 0;
-		while (line[i] && !strchr(FORMAT, line[i]))
+		while (line[i] && !ft_strchr(FORMAT, line[i]))
 			i++;
 		map[y++] = ft_strdup(&line[i]);
 		if ((int)ft_strlen(&line[i]) < e->map_size[1])

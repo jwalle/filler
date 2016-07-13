@@ -12,7 +12,7 @@
 
 #include "filler_display.h"
 
-int		check_map_bonus(t_env *e)
+int		put_map_square(t_env *e)
 {
 	int x;
 	int y;
@@ -33,8 +33,10 @@ int		check_map_bonus(t_env *e)
 				disp_square_white(y, x);
 			y++;
 		}
+		free(e->map[x]);
 		x++;
 	}
+	free(e->map);
 	return (0);
 }
 
@@ -55,8 +57,10 @@ int		fill_piece_bonus(t_env *e, float start_y)
 				disp_square_green(y, x, start_y);
 			y++;
 		}
+		free(e->piece[x]);
 		x++;
 	}
+	free(e->piece);
 	return (0);
 }
 

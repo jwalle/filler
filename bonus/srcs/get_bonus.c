@@ -33,14 +33,14 @@ char	**get_piece(char *line, t_env *e)
 	char	**piece;
 
 	y = 0;
-	piece = (char **)malloc(100000);
+	piece = (char **)malloc(sizeof(char *) * 100);
 	e->piece_size = get_size_bonus(line, e);
 	size = e->piece_size[0];
 	while (size--)
 	{
 		get_next_line(0, &line);
 		i = 0;
-		while (line[i] && line[i] != '\n' && !strchr(FORMAT, line[i]))
+		while (line[i] && line[i] != '\n' && !ft_strchr(FORMAT, line[i]))
 			i++;
 		piece[y++] = ft_strdup(&line[i]);
 	}
@@ -55,11 +55,11 @@ char	**get_map(t_env *e, char *line)
 
 	y = 0;
 	i = 0;
-	map = (char **)malloc(100000);
+	map = (char **)malloc(sizeof(char *) * 100);
 	while ((get_next_line(0, &line) > 0))
 	{
 		i = 0;
-		if (strstr(line, "Piece"))
+		if (ft_strstr(line, "Piece"))
 		{
 			e->piece = get_piece(line, e);
 			return (map);

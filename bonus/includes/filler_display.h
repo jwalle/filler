@@ -49,7 +49,7 @@ void			display(GLFWwindow *win, t_env *e);
 void			disp_string(float x, float y, char *str);
 float			disp_grid(int *size, float start_x, float start_y);
 int				fill_piece_bonus(t_env *e, float start_y);
-int				check_map_bonus(t_env *e);
+int				put_map_square(t_env *e);
 void			init_env(t_env *e);
 GLFWwindow		*init_window(const int resx, const int resy);
 void			controls(GLFWwindow *win, int key,
