@@ -35,19 +35,20 @@ typedef struct	s_env
 	char		**piece;
 	int			*piece_size;
 	int			*map_size;
+	float		sz;
 }				t_env;
 
-void			disp_square_red(int x, int y);
-void			disp_square_white(int x, int y);
-void			disp_square_green(int x, int y, float start_y);
-void			disp_square_blue(int x, int y);
+void			disp_square_red(int x, int y, float sz);
+void			disp_square_white(int x, int y, float sz);
+void			disp_square_green(int x, int y, float start_y, float sz);
+void			disp_square_blue(int x, int y, float sz);
 void			get_play(float y, char **str, t_env *e);
 char			**get_map(t_env *e, char *line);
 char			**get_piece(char *line, t_env *e);
 int				*get_size_bonus(char *line, t_env *e);
 void			display(GLFWwindow *win, t_env *e);
 void			disp_string(float x, float y, char *str);
-float			disp_grid(int *size, float start_x, float start_y);
+float			disp_grid(int *size, float start_x, float start_y, float sz);
 int				fill_piece_bonus(t_env *e, float start_y);
 int				put_map_square(t_env *e);
 void			init_env(t_env *e);

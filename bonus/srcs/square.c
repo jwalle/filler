@@ -12,15 +12,15 @@
 
 #include "filler_display.h"
 
-void	disp_square_red(int x, int y)
+void	disp_square_red(int x, int y, float sz)
 {
 	float x1;
 	float y1;
 	float size;
 
-	size = 0.03;
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
+	size = sz / 2;
+	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
+	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -30,15 +30,15 @@ void	disp_square_red(int x, int y)
 	glEnd();
 }
 
-void	disp_square_white(int x, int y)
+void	disp_square_white(int x, int y, float sz)
 {
 	float x1;
 	float y1;
 	float size;
 
-	size = 0.03;
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
+	size = sz / 2;
+	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
+	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -48,15 +48,15 @@ void	disp_square_white(int x, int y)
 	glEnd();
 }
 
-void	disp_square_green(int x, int y, float start_y)
+void	disp_square_green(int x, int y, float start_y, float sz)
 {
 	float x1;
 	float y1;
 	float size;
 
-	size = 0.03;
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = start_y - ((float)y * 0.05);
+	size = sz / 2;
+	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
+	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -66,15 +66,15 @@ void	disp_square_green(int x, int y, float start_y)
 	glEnd();
 }
 
-void	disp_square_blue(int x, int y)
+void	disp_square_blue(int x, int y, float sz)
 {
 	float x1;
 	float y1;
 	float size;
 
-	size = 0.03;
-	x1 = -0.94 + ((float)x * 0.05);
-	y1 = 0.94 - ((float)y * 0.05);
+	size = sz / 2;
+	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
+	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);

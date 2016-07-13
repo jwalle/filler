@@ -26,11 +26,11 @@ int		put_map_square(t_env *e)
 		while (y < e->map_size[1])
 		{
 			if (e->map[x][y] == 'X')
-				disp_square_red(y, x);
+				disp_square_red(y, x, e->sz);
 			else if (e->map[x][y] == 'O')
-				disp_square_blue(y, x);
+				disp_square_blue(y, x, e->sz);
 			else if (e->map[x][y] == 'o' || e->map[x][y] == 'x')
-				disp_square_white(y, x);
+				disp_square_white(y, x, e->sz);
 			y++;
 		}
 		free(e->map[x]);
@@ -54,7 +54,7 @@ int		fill_piece_bonus(t_env *e, float start_y)
 		while (y < e->piece_size[1])
 		{
 			if (e->piece[x][y] == '*')
-				disp_square_green(y, x, start_y);
+				disp_square_green(y, x, start_y, e->sz);
 			y++;
 		}
 		free(e->piece[x]);

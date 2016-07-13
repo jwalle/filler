@@ -16,7 +16,7 @@ float	disp_piece(t_env *e, float eom)
 {
 	disp_string(-1, eom, "Piece :");
 	eom -= 0.005;
-	disp_grid(e->piece_size, -0.95, eom - 0.10);
+	disp_grid(e->piece_size, -0.95, eom - 0.10, e->sz);
 	fill_piece_bonus(e, eom - 0.11);
 	return (eom);
 }
@@ -52,9 +52,10 @@ void	display(GLFWwindow *win, t_env *e)
 			else if (ft_strstr(line, "Plateau"))
 			{
 				e->map_size = get_size_bonus(line, e);
+				e->sz = 0.04;
 				get_next_line(0, &line);
 				e->map = get_map(e, line);
-				eom = disp_grid(e->map_size, -0.95, 0.95);
+				eom = disp_grid(e->map_size, -0.95, 0.95, e->sz);
 				if (e->piece_size[0] > 0)
 					disp_piece(e, eom);
 				put_map_square(e);

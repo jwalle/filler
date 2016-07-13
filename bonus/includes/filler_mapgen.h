@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define MAX_LEN 100
-# define MAX_LINE 100
+# define MAX_LEN 15
+# define MAX_LINE 15
 
 #endif
