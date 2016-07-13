@@ -23,7 +23,7 @@ cmp_result()
 
 get_result()
 {
-	LINE=$(./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/carli.filler -v -f maps/rand.map | grep "fin" | cut -d ' ' -f4)
+	LINE=$(./bonus/map_gen > maps/rand.map | ./ex_filler/filler_vm -p1 ./jwalle.filler -p2 ./ex_filler/hcao.filler -v -f maps/rand.map | grep "fin" | cut -d ' ' -f4)
 	echo $LINE
 	P1=$(echo $LINE | cut -d ' ' -f1)
 	P2=$(echo $LINE | cut -d ' ' -f2)

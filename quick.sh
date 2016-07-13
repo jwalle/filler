@@ -1,1 +1,1 @@
-git add -A ; git commit -m "shell script" ; git push origin master
+git add -A ; git commit -m "test size var" ; git push origin master
