@@ -38,8 +38,8 @@ void		controls(GLFWwindow *win, int key, int scancode,
 	{
 		if (key == GLFW_KEY_ESCAPE)
 			glfwSetWindowShouldClose(win, GL_TRUE);
-		if (key == GLFW_KEY_ESCAPE)
-			usleep(100000);
+		if (key == GLFW_KEY_SPACE)
+			usleep(1000000);
 	}
 }
 

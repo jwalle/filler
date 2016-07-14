@@ -83,7 +83,7 @@ void	display(GLFWwindow *win, t_env *e)
 		{
 			put_winner(e, eom);
 			glfwSwapBuffers(win);
-			glfwWaitEvents();
+			glfwWaitEvents(); //TODO BETTER HOLD
 		}
 	}
 }

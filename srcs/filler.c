@@ -36,7 +36,7 @@ int		test_piece(t_env *e, int map_coord[2])
 				if (check_fill(piece_coord) &&
 					check_stars(e, piece_coord, star_coord) &&
 					check_size(e, piece_coord))
-					return (put_result(piece_coord));
+					return (put_result(piece_coord)); //TODO ALGO FIND & DESTROY
 			}
 		}
 	}
