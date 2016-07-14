@@ -89,14 +89,14 @@ int		main(int ac, char **av)
 	int			width;
 	int			height;
 
-	width = 1000;
-	height = 1000;
+	width = WIDTH;
+	height = HEIGHT;
 	e = (t_env *)malloc(sizeof(t_env));
 	init_env(e);
-	win = init_window(1000, 1000);
+	win = init_window(WIDTH, HEIGHT);
 	if (win)
 	{
-		glViewport(0, 0, 1000, 1000);
+		glViewport(0, 0, WIDTH, HEIGHT);
 		glClear(GL_COLOR_BUFFER_BIT);
 		display(win, e);
 		glfwTerminate();

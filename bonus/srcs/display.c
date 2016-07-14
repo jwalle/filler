@@ -36,6 +36,19 @@ void	put_winner(t_env *e, float eom)
 		disp_string(-1, eom, "The game is Draw !!");
 }
 
+float	get_square_size(int *size)
+{
+	float ret;
+
+	ret = 0;
+	if (size[0] > size[1])
+		ret = ((float)WIDTH / (float)size[0]) / WIDTH;
+	else
+		ret = ((float)WIDTH / (float)size[1]) / WIDTH;
+	return (ret);
+
+}
+
 void	display(GLFWwindow *win, t_env *e)
 {
 	char	*line;
@@ -44,6 +57,7 @@ void	display(GLFWwindow *win, t_env *e)
 
 	while (!glfwWindowShouldClose(win) && !glfwGetKey(win, 256))
 	{
+		glfwPollEvents();
 		if (get_next_line(0, &line) > 0)
 		{
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -52,7 +66,8 @@ void	display(GLFWwindow *win, t_env *e)
 			else if (ft_strstr(line, "Plateau"))
 			{
 				e->map_size = get_size_bonus(line, e);
-				e->sz = 0.04;
+				if (e->map_size && !e->sz)
+					e->sz = get_square_size(e->map_size);
 				get_next_line(0, &line);
 				e->map = get_map(e, line);
 				eom = disp_grid(e->map_size, -0.95, 0.95, e->sz);
@@ -68,7 +83,7 @@ void	display(GLFWwindow *win, t_env *e)
 		{
 			put_winner(e, eom);
 			glfwSwapBuffers(win);
+			glfwWaitEvents();
 		}
-		glfwPollEvents();
 	}
 }

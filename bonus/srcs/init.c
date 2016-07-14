@@ -14,6 +14,7 @@
 
 void		init_env(t_env *e)
 {
+	e->sz = 0;
 	e->player = 0;
 	e->p1_count = 0;
 	e->p2_count = 0;

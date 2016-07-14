@@ -23,8 +23,8 @@
 # define GREEN "\x1B[32m"
 # define RESET "\x1B[0m"
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 1500
+# define HEIGHT 1200
 
 typedef struct	s_env
 {

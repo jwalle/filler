@@ -19,8 +19,8 @@ void	disp_square_red(int x, int y, float sz)
 	float size;
 
 	size = sz / 2;
-	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
-	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
+	x1 = (-0.95 + (sz / 4)) + ((float)x * sz);
+	y1 = (0.95 - (sz / 4)) - ((float)y * sz);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -37,8 +37,8 @@ void	disp_square_white(int x, int y, float sz)
 	float size;
 
 	size = sz / 2;
-	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
-	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
+	x1 = (-0.95 + (sz / 4)) + ((float)x * sz);
+	y1 = (0.95 - (sz / 4)) - ((float)y * sz);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -55,8 +55,8 @@ void	disp_square_green(int x, int y, float start_y, float sz)
 	float size;
 
 	size = sz / 2;
-	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
-	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
+	x1 = (-0.95 + (sz / 4)) + ((float)x * sz);
+	y1 = (start_y/* - (sz / 2)*/) - ((float)y * sz);
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
@@ -73,8 +73,8 @@ void	disp_square_blue(int x, int y, float sz)
 	float size;
 
 	size = sz / 2;
-	x1 = (-1.0 + (sz * 1.9)) + ((float)x * sz);
-	y1 = (1.0 - (sz * 1.9)) - ((float)y * sz);
+	x1 = (-0.95 + (sz / 4)) + ((float)x * sz);
+	y1 = (0.95 - (sz / 4)) - ((float)y * sz);
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
 	glVertex3f(x1, y1 - size, -1.0f);
