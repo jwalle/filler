@@ -91,6 +91,13 @@ char	**get_map(t_env *e, char *line)
 	return (map);
 }
 
+char	get_other_char(int player)
+{
+	if (player == 1)
+		return ('X');
+	return ('O');
+}
+
 char	get_player_char(int player)
 {
 	if (player == 1)

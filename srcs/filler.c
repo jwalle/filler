@@ -31,16 +31,37 @@ int		test_piece(t_env *e, int map_coord[2])
 			{
 				star_coord[0] = x;
 				star_coord[1] = y;
-				piece_coord[0] = map_coord[0] - star_coord[0];
+				piece_coord[0] = map_coord[0] - star_coord[0];		
 				piece_coord[1] = map_coord[1] - star_coord[1];
-				if (check_fill(piece_coord) &&
-					check_stars(e, piece_coord, star_coord) &&
-					check_size(e, piece_coord))
-					return (put_result(piece_coord)); //TODO ALGO FIND & DESTROY
+				if (check_fill(piece_coord) &&						// check if we are still on the map... ?
+					check_stars(e, piece_coord, star_coord) &&		// check if all (but the one) star is on empty space.
+					check_size(e, piece_coord))						// check if all the piece is on the map
+					return (put_result(piece_coord)); 				//TODO ALGO FIND & DESTROY
 			}
 		}
 	}
 	return (0);
+}
+
+void	find(t_env *e)
+{
+	int map_coord[2];
+
+	map_coord[0] = -1;
+	while (++map_coord[0] < e->map_size[0])
+	{
+		map_coord[1] = -1;
+		while (++map_coord[1] < e->map_size[1])
+		{
+			if (e->map[map_coord[0]][map_coord[1]] == get_other_char(e->player))
+			{
+				e->find = map_coord;
+				return ;
+			}
+		}
+	}
+	ft_putstr("ERROR\n");
+	exit(1);
 }
 
 void	play(t_env *e)
@@ -48,6 +69,7 @@ void	play(t_env *e)
 	int map_coord[2];
 
 	map_coord[0] = -1;
+	find(e);
 	while (++map_coord[0] < e->map_size[0])
 	{
 		map_coord[1] = -1;
